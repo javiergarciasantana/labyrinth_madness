@@ -12,9 +12,10 @@ public class main {
     try {
       String filePath = "labyrinth_madness/input.txt";
       DfsSolver solver = new DfsSolver();
-      solver.read(filePath, 5, 4);
 
+      solver.read(filePath, 5, 4);
       solver.write();
+      
     } catch (IOException e) {
       e.printStackTrace();
     }
