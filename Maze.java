@@ -11,11 +11,13 @@ public class Maze {
   protected int width_, length_, size;
   protected List<List<Integer>> maze_ = new ArrayList<>();
   protected List<Map.Entry<Integer, Integer>> nodes = new ArrayList<>();
-  protected List<Integer> rules = new ArrayList<>();
+  protected List<Integer> rules_ = new ArrayList<>();
+  protected int xMove[] = {-1, 0, 1, 0};
+  protected int yMove[] = {0, -1, 0, 1};
 
   public Maze() {
     nodes.clear();
-    rules.clear();
+    rules_.clear();
   }
 
   public Maze(List<List<Integer>> matrix, int l, int w, int x, int y) {
@@ -39,7 +41,7 @@ public class Maze {
     nodes.add(Map.entry(x, y));
   }
 
-  public void addToRules(int r) {
-    rules.add(r);
+  public void addToRules_(int r) {
+    rules_.add(r);
   }
 }
