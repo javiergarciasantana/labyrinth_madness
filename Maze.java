@@ -21,7 +21,7 @@ public class Maze {
   protected int initial_x_, initial_y_;
   protected int width_, length_, size;
   protected List<List<Integer>> maze_ = new ArrayList<>();
-  protected List<Map.Entry<Integer, Integer>> nodes = new ArrayList<>();
+  protected List<Map.Entry<Integer, Integer>> nodes_ = new ArrayList<>();
   protected List<Integer> rules_ = new ArrayList<>();
   protected int xMove[] = {-1, 0, 1, 0};
   protected int yMove[] = {0, -1, 0, 1};
@@ -30,7 +30,7 @@ public class Maze {
    * Default constructor for Maze.
    */
   public Maze() {
-    nodes.clear();
+    nodes_.clear();
     rules_.clear();
   }
 
@@ -50,7 +50,7 @@ public class Maze {
     width_ = w;
     maze_ = matrix;
     size = length_ * width_;
-    nodes.add(Map.entry(initial_x_ - 1, initial_y_ - 1));
+    nodes_.add(Map.entry(initial_x_ - 1, initial_y_ - 1));
   }
 
   /**
@@ -74,7 +74,7 @@ public class Maze {
    * @param y   The y-coordinate of the node.
    */
   public void addToNodes(int x, int y) {
-    nodes.add(Map.entry(x, y));
+    nodes_.add(Map.entry(x, y));
   }
 
   /**
@@ -82,7 +82,7 @@ public class Maze {
    *
    * @param r   The rule to add.
    */
-  public void addToRules_(int r) {
+  public void addToRules(int r) {
     rules_.add(r);
   }
 }
