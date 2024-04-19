@@ -16,7 +16,7 @@ public class main {
   public static void main(String[] args) { 
 
     try {
-      String filePath = "labyrinth_madness/input.txt";//Filepath
+      String filePath = "labyrinth_madness/inputs/input.txt";//Filepath
       DfsSolver solver = new DfsSolver();//Call the DFS default constructor(Just initialized 2 variables)
 
       solver.read(filePath, 5, 4);//We call the read method to get the info from the
