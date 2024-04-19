@@ -19,7 +19,7 @@ public class DfsSolver extends Maze {
     step_ = 2;
   }
 
-  public DfsSolver(List<List<Integer>> matrix, int l, int w, int x, int y, int ver) {
+  public DfsSolver(List<List<Integer>> matrix, int l, int w, int x, int y) {
     super(matrix, l, w, x, y);
     trials_ = 0;
     step_ = 2;
@@ -127,6 +127,13 @@ public class DfsSolver extends Maze {
         nodes.add(Map.entry(x_next, y_next));
         // System.out.println(" Free. L:=L+1=" + step + ". LAB[" + (x_next + 1) +
         //         "," + (y_next + 1) + "]:=" + step + ".");
+        try {
+          // Sleep for 1 second (1000 milliseconds)
+          Thread.sleep(1000);
+        } catch (InterruptedException e) {
+            // Handle interruption if needed
+            e.printStackTrace();
+        }
         if (solve(x_next, y_next, step + 1) == 1) {
           return 1;
         } else {
