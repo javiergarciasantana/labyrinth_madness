@@ -1,7 +1,13 @@
+// AUTOR: Javier Garcia Santana & Valerio Siniscalco
+// DATE: 19/04/2024
+// VERSION: 4.0
+// COURSE: OOP
+// NAME: Labyrinth Madness
+// COMMENTS: Main file
+//
+
 package labyrinth_madness;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
 import java.io.IOException;
 
 import expression_simplifier.ExprSimplifier;
