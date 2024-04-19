@@ -148,6 +148,14 @@ public class DfsSolver extends Maze {
           maze_.get(y_next).set(x_next, -1);
           rules_.remove(rules_.size() - 1);
           nodes.remove(nodes.size() - 1);
+          try {
+            // Sleep for 1 second (1000 milliseconds)
+            Thread.sleep(1000);
+          } catch (InterruptedException e) {
+              // Handle interruption if needed
+              e.printStackTrace();
+          }
+          printTable(false);
         }
       }
     }
