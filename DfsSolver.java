@@ -102,22 +102,6 @@ public class DfsSolver extends Maze {
   }
 
   /**
-   * Prints trace information.
-   *
-   * @param x_pos  The x-coordinate.
-   * @param y_pos  The y-coordinate.
-   * @param step   The step number.
-   * @param move   The move number.
-   */
-  private void printTrace(int x_pos, int y_pos, int step, int move) {
-    System.out.print("\n     " + trials_ + ") ");
-    for (int i = 3; i < step; ++i) {
-      System.out.print("-");
-    }
-    System.out.println("R" + (move + 1) + ". U=" + (x_pos + 1) + ", V=" + (y_pos + 1) + ". L=" + step + ".");
-  }
-
-  /**
    * Prints maze table.
    *
    * @param header  True to print header, false otherwise.
