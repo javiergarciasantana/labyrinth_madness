@@ -6,8 +6,8 @@
 ## File Format:
 - **Matrix Orientation:** Matrices in the text files are presented upside down due to the AI format, but this won't affect the functionality.
 
-## Interacting with the DFS Class:
-To utilize the DFS class from your main file, follow these steps:
+## Interacting with the DFS & BFS Class:
+To utilize the DFS & BFS class from your main file, follow these steps:
 
 ```java
 package labyrinth_madness;
@@ -37,7 +37,7 @@ public class main {
 It is also interesting to know how the read(String,int,int) method works. This creates a matrix and changes the previously initialized maze to the matrix extracted from the textfile.
 
 ## IMPORTANT:
-There is also a parametric constructor for the DFS class:
+There is also a parametric constructor for the DFS & BFS class:
 ```java
 public DfsSolver(List<List<Integer>> matrix, int l, int w, int x, int y) {
     super(matrix, l, w, x, y);
