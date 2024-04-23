@@ -19,6 +19,8 @@ import java.util.Map;
  * Represents a solver for solving mazes using Depth-First Search algorithm.
  */
 public class DfsSolver extends Maze {
+  
+  //Fields
   private int step_;
   private int trials_;
 

@@ -63,7 +63,7 @@ public class BfsSolver extends Maze {
    * @param y_pos  The y-coordinate of the position.
    * @return       True if move is valid, false otherwise.
    */
-  public boolean Move(int x_pos, int y_pos) {
+  private boolean Move(int x_pos, int y_pos) {
     return (x_pos >= 0 && y_pos >= 0 
          && x_pos < width_  && y_pos < length_ 
          && maze_.get(y_pos).get(x_pos) < 1 
@@ -127,7 +127,7 @@ public class BfsSolver extends Maze {
    * @param wave  The current wave number.
    * @return      1 if solution is found, 0 otherwise.
    */
-  public int Solve(int wave) {
+  private int Solve(int wave) {
     --wave_;
     while (!cola_.isEmpty()) {
       Map.Entry<Integer, Integer> k = cola_.poll();
@@ -167,7 +167,7 @@ public class BfsSolver extends Maze {
   /**
    * Traces back the solution path.
    */
-  public void TrailOfCrums() {
+  private void TrailOfCrums() {
     int x_pos = final_x_;
     int y_pos = final_y_;
     while (pred_.get(y_pos).get(x_pos) != -1) {
@@ -199,7 +199,7 @@ public class BfsSolver extends Maze {
   /**
    * Prints maze data.
    */
-  public void printData() {
+  private void printData() {
     System.out.println("PART 1. Data\n" + "  1.1. Labyrinth.\n");
     printTable(false);
     System.out.println("\n    1.2 Initial position: X=" + (initial_x_ + 1) + ", Y=" 
@@ -211,7 +211,7 @@ public class BfsSolver extends Maze {
    *
    * @param header  Indicates whether to print header or not.
    */
-  public void printTable(boolean header) {
+  private void printTable(boolean header) {
     if (header) {
       System.out.println("\nPART 2. Results \n" + "  3.1. Path is found." + "\n  3.2. Path graphically:\n");
     } else {
