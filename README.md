@@ -1,4 +1,4 @@
-# HOW TO USE THE DFS CLASS
+# HOW TO USE THE DFS & BFS CLASS
 
 ## Precautions:
 - **File Reading Issue:** There's a known problem with the text file reader that prevents it from reading the last line. As a workaround, add a line with all ones at the end of the file.
@@ -23,7 +23,7 @@ public class main {
 
     try {
       String filePath = "labyrinth_madness/input_2.txt";//Filepath
-      DfsSolver solver = new DfsSolver();//Call the DFS default
+      DfsSolver solver = new DfsSolver();//Call the DFS default constructor, also---->BfsSolver solver = new BfsSolver()
       solver.read(filePath, 5, 4);//We call the read method to get the info from the
                                                   //textfile and we also give it the initial position of the explorer
       solver.write();//Simply calls the solve() method and prints the result
