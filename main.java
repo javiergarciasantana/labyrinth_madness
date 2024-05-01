@@ -30,34 +30,13 @@ public class main {
               System.out.println("Goodbye!");
               return;
           case "1":
-              try {
-                String filePath = "labyrinth_madness/inputs/input.txt";//Filepath
-                DfsSolver solver = new DfsSolver();//Call the DFS default constructor(Just initialized 2 variables)
-          
-                solver.Read(filePath, 5, 4);//We call the read method to get the info from the
-                                                                //textfile(need to change to just give matrix of integers)
-                                                                //and we also give it the initial position of the explorer
-                
-                solver.Write();//Simply calls the solve() method and prints the result
-          
-              } catch (IOException e) {
-                e.printStackTrace();
-              }
+                DfsSolver solver_dfs = new DfsSolver();//Call the DFS default constructor(Just initialized 2 variables)
+                solver_dfs.Write();//Simply calls the solve() method and prints the result
+
               break;
           case "2":
-              try {
-                String filePath = "labyrinth_madness/inputs/input.txt";//Filepath
-                BfsSolver solver = new BfsSolver();//Call the DFS default constructor(Just initialized 2 variables)
-          
-                solver.Read(filePath, 5, 4);//We call the read method to get the info from the
-                                                                //textfile(need to change to just give matrix of integers)
-                                                                //and we also give it the initial position of the explorer
-                
-                solver.Write();//Simply calls the solve() method and prints the result
-          
-              } catch (IOException e) {
-                e.printStackTrace();
-              }
+                BfsSolver solver_bfs = new BfsSolver();//Call the DFS default constructor(Just initialized 2 variables      
+                solver_bfs.Write();//Simply calls the solve() method and prints the result
               break;
           case "h":
               System.out.println("No help at the moment");

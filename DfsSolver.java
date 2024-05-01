@@ -18,17 +18,23 @@ import java.util.Map;
 /**
  * Represents a solver for solving mazes using Depth-First Search algorithm.
  */
-public class DfsSolver extends Maze {
+public class DfsSolver {
   
   //Fields
   private int step_;
   private int trials_;
+  private Maze maze_;
+  private int initial_x_, initial_y_;
+  protected List<Map.Entry<Integer, Integer>> nodes_ = new ArrayList<>();
+  private List<Integer> rules_ = new ArrayList<>();
+  private int xMove[] = {-1, 0, 1, 0};
+  private int yMove[] = {0, -1, 0, 1};
 
   /**
    * Default constructor for DfsSolver.
    */
   public DfsSolver() {
-    super();
+    maze_ = new Maze();
     trials_ = 0;
     step_ = 2;
   }
@@ -42,48 +48,14 @@ public class DfsSolver extends Maze {
    * @param x         The initial x-coordinate.
    * @param y         The initial y-coordinate.
    */
-  public DfsSolver(List<List<Integer>> matrix, int l, int w, int x, int y) {
-    super(matrix, l, w, x, y);
+  public DfsSolver(int l, int w, int x, int y) {
+    maze_ = new Maze(l, w);
     trials_ = 0;
     step_ = 2;
-    maze_.get(initial_y_).set(initial_x_, step_);
+    initial_x_ = x - 1;
+    initial_y_ = y - 1;
+    maze_.setElem(initial_x_, initial_y_, step_);
     nodes_.add(Map.entry(initial_x_, initial_y_));
-  }
-
-  /**
-   * Reads maze information from a text file.
-   *
-   * @param textFile   The path to the text file.
-   * @param initial_x  The initial x-coordinate.
-   * @param initial_y  The initial y-coordinate.
-   * @throws IOException if an I/O error occurs.
-   */
-  public void Read(String textFile, int initial_x, int initial_y) throws IOException {
-    List<List<Integer>> matrix = new ArrayList<>();
-    BufferedReader reader = new BufferedReader(new FileReader(textFile));
-    String line;
-    int length = 0;
-    while ((line = reader.readLine()) != null) {
-      List<Integer> row = new ArrayList<>();
-        for (int i = 0; i < line.length(); i++) {
-          if (line.charAt(i) != ' ') {
-            row.add(line.charAt(i) - '0');
-          }
-        }
-      matrix.add(row);
-      length++;
-    }
-    reader.close();
-
-    int width = matrix.get(0).size();
-    matrix.remove(matrix.size() - 1);
-
-    length_ = length - 1;
-    width_ = width;
-    initial_x_ = initial_x - 1;
-    initial_y_ = initial_y - 1;
-    maze_ = matrix;
-    maze_.get(initial_y_).set(initial_x_, step_);
   }
 
   /**
@@ -115,15 +87,15 @@ public class DfsSolver extends Maze {
     } else {
       System.out.println("ITERATION: " + step_);
     }
-    for (int i = length_ - 1; i >= 0; --i) {
-      for (int j = 0; j < width_; ++j) {
-        if (maze_.get(i).get(j) / 10 < 1) {
+    for (int i = maze_.getLength() - 1; i >= 0; --i) {
+      for (int j = 0; j < maze_.getWidth(); ++j) {
+        if (maze_.getElem(j, i) / 10 < 1) {
           System.out.print(" ");
         }
-        if (maze_.get(i).get(j) >= 0) {
-          System.out.print(" " + maze_.get(i).get(j));
+        if (maze_.getElem(j, i) >= 0) {
+          System.out.print(" " + maze_.getElem(j, i));
         } else {
-          System.out.print(maze_.get(i).get(j));
+          System.out.print(maze_.getElem(j, i));
         }
       }
       System.out.println();
@@ -140,9 +112,9 @@ public class DfsSolver extends Maze {
    */
   private boolean move(int x_pos, int y_pos) {
     return (x_pos >= 0 && y_pos >= 0
-            && x_pos < width_ && y_pos < length_
-            && maze_.get(y_pos).get(x_pos) < 1
-            && maze_.get(y_pos).get(x_pos) > -1);
+            && x_pos < maze_.getWidth() && y_pos < maze_.getLength()
+            && maze_.getElem(x_pos, y_pos) < 1
+            && maze_.getElem(x_pos, y_pos) > -1);
   }
 
   /**
@@ -155,7 +127,7 @@ public class DfsSolver extends Maze {
    */
   private int solve(int x_pos, int y_pos, int step) {
     printTable(false);
-    if (Finished(x_pos, y_pos)) {
+    if (maze_.Finished(x_pos, y_pos)) {
       return 1;
     }
     int x_next, y_next;
@@ -165,7 +137,7 @@ public class DfsSolver extends Maze {
       ++trials_;
 
       if (move(x_next, y_next)) {
-        maze_.get(y_next).set(x_next, step);
+        maze_.setElem(x_next, y_next, step);
         step_ = step;
         rules_.add(k + 1);
         nodes_.add(Map.entry(x_next, y_next));
@@ -180,7 +152,7 @@ public class DfsSolver extends Maze {
         if (solve(x_next, y_next, step + 1) == 1) {
           return 1;
         } else {
-          maze_.get(y_next).set(x_next, -1);
+          maze_.setElem(x_next, y_next, -1);
           rules_.remove(rules_.size() - 1);
           nodes_.remove(nodes_.size() - 1);
           try {
@@ -195,5 +167,24 @@ public class DfsSolver extends Maze {
       }
     }
     return 0;
+  }
+
+  /**
+   * Adds a node to the maze.
+   *
+   * @param x   The x-coordinate of the node.
+   * @param y   The y-coordinate of the node.
+   */
+  public void addToNodes(int x, int y) {
+    nodes_.add(Map.entry(x, y));
+  }
+
+  /**
+   * Adds a rule to the maze.
+   *
+   * @param r   The rule to add.
+   */
+  public void addToRules(int r) {
+    rules_.add(r);
   }
 }

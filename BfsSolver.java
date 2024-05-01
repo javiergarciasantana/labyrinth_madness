@@ -22,6 +22,12 @@ public class BfsSolver extends Maze {
   private Queue<Map.Entry<Integer, Integer>> cola_ = new LinkedList<>();
   private List<Map.Entry<Integer, Integer>> d_ = new ArrayList<>();
   private List<List<Integer>> pred_;
+  private Maze maze_;
+  private int initial_x_, initial_y_;
+  protected List<Map.Entry<Integer, Integer>> nodes_ = new ArrayList<>();
+  private List<Integer> rules_ = new ArrayList<>();
+  private int xMove[] = {-1, 0, 1, 0};
+  private int yMove[] = {0, -1, 0, 1};
 
   // Constructors
 
@@ -45,12 +51,14 @@ public class BfsSolver extends Maze {
    * @param x         The initial x-coordinate.
    * @param y         The initial y-coordinate.
    */
-  public BfsSolver(List<List<Integer>> matrix, int l, int w, int x, int y) {
-    super(matrix, l, w, x, y);
+  public BfsSolver(int l, int w, int x, int y) {
+    maze_ = new Maze(l, w);
+    initial_x_ = x - 1;
+    initial_y_ = y - 1;
     wave_ = 2;
     step_ = 1;
     n_nodes_ = 1;
-    maze_.get(initial_y_).set(initial_x_, wave_);
+    maze_.setElem(initial_x_, initial_y_, wave_);
     cola_.add(new AbstractMap.SimpleEntry<>(initial_x_, initial_y_));
   }
 
@@ -65,50 +73,11 @@ public class BfsSolver extends Maze {
    */
   private boolean Move(int x_pos, int y_pos) {
     return (x_pos >= 0 && y_pos >= 0 
-         && x_pos < width_  && y_pos < length_ 
-         && maze_.get(y_pos).get(x_pos) < 1 
-         && maze_.get(y_pos).get(x_pos) > -1);
+         && x_pos < maze_.getWidth()  && y_pos < maze_.getLength() 
+         && maze_.getElem(x_pos, y_pos) < 1 
+         && maze_.getElem(x_pos, y_pos) > -1);
   }
 
-  /**
-   * Reads maze data from the specified file.
-   *
-   * @param input       The input file name.
-   * @param initial_x   The initial x-coordinate.
-   * @param initial_y   The initial y-coordinate.
-   * @throws IOException  If an I/O error occurs.
-   */
-  public void Read(String input, int initial_x, int initial_y) throws IOException {
-    BufferedReader reader = new BufferedReader(new FileReader(input));
-    List<List<Integer>> matrix = new ArrayList<>();
-    int length = 0;
-    String line;
-    while ((line = reader.readLine()) != null) {
-      List<Integer> aux = new ArrayList<>();
-      for (int i = 0; i < line.length(); ++i) {
-        if (line.charAt(i) != ' ') {
-          aux.add(line.charAt(i) - '0');
-        } 
-      } 
-      matrix.add(aux);
-      ++length;
-    }
-    reader.close();
-    
-    int width = matrix.get(0).size();
-    matrix.remove(matrix.size() - 1);
-
-    length_ = length - 1;
-    width_ = width;
-    initial_x_ = initial_x - 1;
-    initial_y_ = initial_y - 1;
-    maze_ = matrix;
-    pred_ = matrix;
-    pred_.get(initial_y_).set(initial_x_, -1);
-    maze_.get(initial_y_).set(initial_x_, wave_);
-  
-    cola_.add(new AbstractMap.SimpleEntry<>(initial_x_, initial_y_));
-  }
 
   /**
    * Writes maze data.
@@ -131,7 +100,7 @@ public class BfsSolver extends Maze {
     --wave_;
     while (!cola_.isEmpty()) {
       Map.Entry<Integer, Integer> k = cola_.poll();
-      if (wave_ < maze_.get(k.getValue()).get(k.getKey())) {
+      if (wave_ < maze_.getElem(k.getKey(), k.getValue())) {
         ++wave_;
         try {
           Thread.sleep(1000); // Sleep for 1 second (1000 milliseconds)
@@ -146,7 +115,7 @@ public class BfsSolver extends Maze {
           ++n_nodes_;
           cola_.add(new AbstractMap.SimpleEntry<>(k.getKey() + xMove[j], k.getValue() + yMove[j]));
           pred_.get(k.getValue() + yMove[j]).set(k.getKey() + xMove[j], j);
-          maze_.get(k.getValue() + yMove[j]).set(k.getKey() + xMove[j], maze_.get(k.getValue()).get(k.getKey()) + 1);
+          maze_.setElem(k.getKey() + xMove[j], k.getValue() + yMove[j], maze_.getElem(k.getKey() + 1, k.getValue()));
           if (Finished(k.getKey() + xMove[j], k.getValue() + yMove[j])) {
             final_x_ = k.getKey() + xMove[j];
             final_y_ = k.getValue() + yMove[j];
@@ -217,20 +186,39 @@ public class BfsSolver extends Maze {
     } else {
       System.out.println("ITERATION: " + wave_);
     }
-    for (int i = length_ - 1; i >= 0; --i) {
-      for (int j = 0; j < width_; ++j) {
-        if (maze_.get(i).get(j) / 10 < 1) {
+    for (int i = maze_.getLength() - 1; i >= 0; --i) {
+      for (int j = 0; j < maze_.getWidth(); ++j) {
+        if (maze_.getElem(j, i) / 10 < 1) {
           System.out.print(" ");
         }
-        if (maze_.get(i).get(j) >= 0) {
-          System.out.print(" " + maze_.get(i).get(j));
+        if (maze_.getElem(j, i) >= 0) {
+          System.out.print(" " + maze_.getElem(j, i));
         } else {
-          System.out.print(maze_.get(i).get(j));
+          System.out.print(maze_.getElem(j, i));
         }
       }
       System.out.println();
     }
     System.out.println();
     System.out.println();
+  }
+
+    /**
+   * Adds a node to the maze.
+   *
+   * @param x   The x-coordinate of the node.
+   * @param y   The y-coordinate of the node.
+   */
+  public void addToNodes(int x, int y) {
+    nodes_.add(Map.entry(x, y));
+  }
+
+  /**
+   * Adds a rule to the maze.
+   *
+   * @param r   The rule to add.
+   */
+  public void addToRules(int r) {
+    rules_.add(r);
   }
 }

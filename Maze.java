@@ -18,20 +18,14 @@ import java.util.HashMap;
  */
 public class Maze {
 
-  protected int initial_x_, initial_y_;
-  protected int width_, length_, size;
-  protected List<List<Integer>> maze_ = new ArrayList<>();
-  protected List<Map.Entry<Integer, Integer>> nodes_ = new ArrayList<>();
-  protected List<Integer> rules_ = new ArrayList<>();
-  protected int xMove[] = {-1, 0, 1, 0};
-  protected int yMove[] = {0, -1, 0, 1};
+  private int width_, length_, size;
+  private List<List<Integer>> maze_ = new ArrayList<>();
 
   /**
    * Default constructor for Maze.
    */
   public Maze() {
-    nodes_.clear();
-    rules_.clear();
+    maze_.clear();
   }
 
   /**
@@ -43,14 +37,26 @@ public class Maze {
    * @param x         The initial x-coordinate.
    * @param y         The initial y-coordinate.
    */
-  public Maze(List<List<Integer>> matrix, int l, int w, int x, int y) {
-    initial_x_ = x - 1;
-    initial_y_ = y - 1;
+  public Maze(int l, int w) {
     length_ = l;
     width_ = w;
-    maze_ = matrix;
     size = length_ * width_;
-    nodes_.add(Map.entry(initial_x_ - 1, initial_y_ - 1));
+  }
+
+  public int getElem(int x_pos, int y_pos) {
+    return maze_.get(y_pos).get(x_pos);
+  }
+
+  public void setElem(int x_pos, int y_pos, int val) {
+    maze_.get(y_pos).set(x_pos, val);
+  }
+
+  public int getLength() {
+    return length_;
+  }
+
+  public int getWidth() {
+    return width_;
   }
 
   /**
@@ -67,22 +73,4 @@ public class Maze {
         (y_pos == length_ - 1 && x_pos >= 0 && x_pos < width_);
   }
 
-  /**
-   * Adds a node to the maze.
-   *
-   * @param x   The x-coordinate of the node.
-   * @param y   The y-coordinate of the node.
-   */
-  public void addToNodes(int x, int y) {
-    nodes_.add(Map.entry(x, y));
-  }
-
-  /**
-   * Adds a rule to the maze.
-   *
-   * @param r   The rule to add.
-   */
-  public void addToRules(int r) {
-    rules_.add(r);
-  }
 }
