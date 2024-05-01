@@ -8,23 +8,64 @@
 
 package labyrinth_madness;
 
-import java.io.IOException;;
+import java.io.IOException;
+import java.util.Scanner;;
 
 public class main {
   public static void main(String[] args) { 
+    System.out.println("Welciome to LABYRINTH_MADNESS");
+    Scanner scanner = new Scanner(System.in);
 
-    try {
-      String filePath = "labyrinth_madness/inputs/input.txt";//Filepath
-      BfsSolver solver = new BfsSolver();//Call the DFS default constructor(Just initialized 2 variables)
+    while (true) {
+      System.out.println("Please select an option");
+      System.out.println("[0]Exit");
+      System.out.println("[1]Solve using DFS");
+      System.out.println("[2]Solve using BFS");
+      System.out.println("[h] Help");
 
-      solver.Read(filePath, 5, 4);//We call the read method to get the info from the
-                                                      //textfile(need to change to just give matrix of integers)
-                                                      //and we also give it the initial position of the explorer
-      
-      solver.Write();//Simply calls the solve() method and prints the result
+      String input = scanner.nextLine();
 
-    } catch (IOException e) {
-      e.printStackTrace();
+      switch (input) {
+          case "0":
+              System.out.println("Goodbye!");
+              return;
+          case "1":
+              try {
+                String filePath = "labyrinth_madness/inputs/input.txt";//Filepath
+                DfsSolver solver = new DfsSolver();//Call the DFS default constructor(Just initialized 2 variables)
+          
+                solver.Read(filePath, 5, 4);//We call the read method to get the info from the
+                                                                //textfile(need to change to just give matrix of integers)
+                                                                //and we also give it the initial position of the explorer
+                
+                solver.Write();//Simply calls the solve() method and prints the result
+          
+              } catch (IOException e) {
+                e.printStackTrace();
+              }
+              break;
+          case "2":
+              try {
+                String filePath = "labyrinth_madness/inputs/input.txt";//Filepath
+                BfsSolver solver = new BfsSolver();//Call the DFS default constructor(Just initialized 2 variables)
+          
+                solver.Read(filePath, 5, 4);//We call the read method to get the info from the
+                                                                //textfile(need to change to just give matrix of integers)
+                                                                //and we also give it the initial position of the explorer
+                
+                solver.Write();//Simply calls the solve() method and prints the result
+          
+              } catch (IOException e) {
+                e.printStackTrace();
+              }
+              break;
+          case "h":
+              System.out.println("No help at the moment");
+              break;
+          default:
+              System.out.println("Please enter a valid option");
+              break;
+      }
     }
   }
 }
