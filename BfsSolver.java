@@ -203,7 +203,7 @@ public class BfsSolver extends Maze {
     System.out.println("PART 1. Data\n" + "  1.1. Labyrinth.\n");
     printTable(false);
     System.out.println("\n    1.2 Initial position: X=" + (initial_x_ + 1) + ", Y=" 
-                + (initial_y_ + 1) + ", L=" + wave_);
+                      + (initial_y_ + 1) + ", L=" + wave_);
   }
 
   /**
