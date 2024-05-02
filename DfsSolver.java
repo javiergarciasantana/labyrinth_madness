@@ -151,7 +151,7 @@ public class DfsSolver {
         } else {
           maze_.setElem(x_next, y_next, -1);
           rules_.remove(rules_.size() - 1);
-          nodes_.remove(nodes_.size() - 1);
+          nodes_.add(Map.entry(x_next, y_next));
           try {
             // Sleep for 1 second (1000 milliseconds)
             Thread.sleep(1000);
