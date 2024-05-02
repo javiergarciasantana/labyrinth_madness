@@ -28,11 +28,20 @@ public class Maze {
     height_ = h;
     maze_ = new Square[width_][height_];
 
-    if (isDiagonal == true) {
-      for (int i = 0; i < width_; i++) {
-        for (int j = 0; j < height_; j++) {
-          maze_[i][j] = new Square(i == j ? 1 : 0, i, j);
-        }
+    int[][] matrix = {
+      {1, 1, 1, 1, 1, 1, 1},
+      {1, 0, 0, 0, 1, 0, 1},
+      {1, 0, 1, 0, 0, 0, 1},
+      {1, 0, 0, 0, 0, 1, 1},
+      {1, 1, 1, 1, 0, 1, 1},
+      {0, 0, 0, 0, 0, 0, 0},
+      {1, 1, 1, 1, 1, 0, 1}
+    };
+
+    // Copy the values from matrix to maze_
+    for (int i = 0; i < width_; i++) {
+      for (int j = 0; j < height_; j++) {
+        maze_[i][j] = new Square(matrix[i][j], i, j);
       }
     }
   }
