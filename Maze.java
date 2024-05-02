@@ -1,58 +1,45 @@
-// AUTOR: Javier Garcia Santana & Valerio Siniscalco
-// DATE: 19/04/2024
-// VERSION: 4.0
-// COURSE: OOP
-// NAME: Labyrinth Madness
-// COMMENTS: File where the Maze class is declared
-//
-
-package labyrinth_madness; 
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.HashMap;
+package maze;
 
 /**
  * Represents a maze for solving labyrinth problems.
  */
 public class Maze {
 
-  private int width_, length_, size;
-  private List<List<Integer>> maze_ = new ArrayList<>();
-
-  /**
-   * Default constructor for Maze.
-   */
-  public Maze() {
-    maze_.clear();
-  }
+  private int width_, height_;
+  private Square[][] maze_;
 
   /**
    * Parametric constructor for Maze.
    *
-   * @param matrix    The maze matrix.
-   * @param l         The length of the maze.
-   * @param w         The width of the maze.
-   * @param x         The initial x-coordinate.
-   * @param y         The initial y-coordinate.
+   * @param matrix The maze matrix.
+   * @param h      The length of the maze.
+   * @param w      The width of the maze.
+   * @param x      The initial x-coordinate.
+   * @param y      The initial y-coordinate.
    */
-  public Maze(int l, int w) {
-    length_ = l;
+  public Maze(int w, int h) {
     width_ = w;
-    size = length_ * width_;
+    height_ = h;
+    maze_ = new Square[width_][height_];
+
+    // Generate a matrix of random 1s and 0s
+    for (int i = 0; i < width_; i++) { // Iterating over rows
+      for (int j = 0; j < height_; j++) { // Iterating over columns
+        maze_[i][j] = new Square(genBin(), i, j);
+      }
+    }
   }
 
-  public int getElem(int x_pos, int y_pos) {
-    return maze_.get(y_pos).get(x_pos);
+  public Square getSquare(int x_pos, int y_pos) {
+    return maze_[x_pos][y_pos];
   }
 
   public void setElem(int x_pos, int y_pos, int val) {
-    maze_.get(y_pos).set(x_pos, val);
+    maze_[x_pos][y_pos].setState(val);
   }
 
-  public int getLength() {
-    return length_;
+  public int getHeight() {
+    return height_;
   }
 
   public int getWidth() {
@@ -62,15 +49,23 @@ public class Maze {
   /**
    * Checks if the position is at the maze boundary.
    *
-   * @param x_pos   The x-coordinate.
-   * @param y_pos   The y-coordinate.
-   * @return        True if at boundary, false otherwise.
+   * @param x_pos The x-coordinate.
+   * @param y_pos The y-coordinate.
+   * @return True if at boundary, false otherwise.
    */
   public boolean Finished(int x_pos, int y_pos) {
-    return (x_pos == 0 && y_pos >= 0 && y_pos < length_) ||
+    return (x_pos == 0 && y_pos >= 0 && y_pos < height_) ||
         (y_pos == 0 && x_pos >= 0 && x_pos < width_) ||
-        (x_pos == width_ - 1 && y_pos >= 0 && y_pos < length_) ||
-        (y_pos == length_ - 1 && x_pos >= 0 && x_pos < width_);
+        (x_pos == width_ - 1 && y_pos >= 0 && y_pos < height_) ||
+        (y_pos == height_ - 1 && x_pos >= 0 && x_pos < width_);
   }
 
+  private int genBin() {
+    float r = (float) Math.random();
+    if (r > 0.8) {
+      return 1;
+    } else {
+      return 0;
+    }
+  }
 }
