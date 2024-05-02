@@ -1,4 +1,4 @@
-package maze;
+package labyrinth_madness;
 
 /**
  * Represents a maze for solving labyrinth problems.

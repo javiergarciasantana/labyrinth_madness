@@ -12,7 +12,7 @@ import java.io.IOException;
 import java.util.Scanner;;
 
 public class main {
-  public static void main(String[] args) { 
+  public static void main(String[] args) {
     System.out.println("Welciome to LABYRINTH_MADNESS");
     Scanner scanner = new Scanner(System.in);
 
@@ -26,24 +26,24 @@ public class main {
       String input = scanner.nextLine();
 
       switch (input) {
-          case "0":
-              System.out.println("Goodbye!");
-              return;
-          case "1":
-                DfsSolver solver_dfs = new DfsSolver();//Call the DFS default constructor(Just initialized 2 variables)
-                solver_dfs.Write();//Simply calls the solve() method and prints the result
+        case "0":
+          System.out.println("Goodbye!");
+          return;
+        case "1":
+          DfsSolver solver_dfs = new DfsSolver();// Call the DFS default constructor(Just initialized 2 variables)
+          solver_dfs.Write();// Simply calls the solve() method and prints the result
 
-              break;
-          case "2":
-                BfsSolver solver_bfs = new BfsSolver();//Call the DFS default constructor(Just initialized 2 variables      
-                solver_bfs.Write();//Simply calls the solve() method and prints the result
-              break;
-          case "h":
-              System.out.println("No help at the moment");
-              break;
-          default:
-              System.out.println("Please enter a valid option");
-              break;
+          break;
+        case "2":
+          BfsSolver solver_bfs = new BfsSolver();// Call the DFS default constructor(Just initialized 2 variables
+          solver_bfs.Write();// Simply calls the solve() method and prints the result
+          break;
+        case "h":
+          System.out.println("No help at the moment");
+          break;
+        default:
+          System.out.println("Please enter a valid option");
+          break;
       }
     }
   }

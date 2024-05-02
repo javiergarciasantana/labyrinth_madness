@@ -1,4 +1,4 @@
-package maze;
+package labyrinth_madness;
 
 public class Square {
   private int state; // 1 wall, 0 free, -1 backtracked, >=2 solution
