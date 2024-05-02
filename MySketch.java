@@ -1,15 +1,19 @@
-package maze;
+package labyrinth_madness;
 
 import processing.core.PApplet;
+import java.util.List;
 
 public class MySketch extends PApplet {
 
+  private DfsSolver solver;
   private Maze m;
   private int stepX;
   private int stepY;
+  private int stepsOverThousand = 1;
 
-  MySketch(Maze m) {
+  MySketch(Maze m, DfsSolver solver) {
     this.m = m;
+    this.solver = solver;
     stepX = 800 / this.m.getWidth();
     stepY = 800 / this.m.getHeight();
   }
@@ -20,20 +24,24 @@ public class MySketch extends PApplet {
 
   public void draw() {
     background(150);
-    pushMatrix();
-    renderMatrix();
-    popMatrix();
-  }
-
-  public void renderMatrix() {
     drawGrid();
-    renderSquares();
+    renderMaze();
+    displayLivePath(solver.getNodes().subList(0, stepsOverThousand));
+    if (frameCount % 60 == 0 && stepsOverThousand < solver.getNodes().size()) {
+      stepsOverThousand++;
+
+    }
   }
 
-  public void renderSquares() {
+  public void renderMaze() {
     for (int i = 0; i < m.getWidth(); i++) { // Iterating over rows
       for (int j = 0; j < m.getHeight(); j++) { // Iterating over columns
-        displaySquare(m.getSquare(i, j));
+        Square s = m.getSquare(i, j);
+        if (s.getState() == 1) {
+          colorSquare(s, 0, 0, 0);
+        } else {
+          colorSquare(s, 255, 255, 255);
+        }
       }
     }
   }
@@ -59,26 +67,21 @@ public class MySketch extends PApplet {
     popMatrix();
   }
 
-  // Display the square
-  public void displaySquare(Square s) {
+  public void displayLivePath(List<Square> path) {
+    for (int i = 0; i < path.size(); i++) {
+      Square s = path.get(i);
+      colorSquare(s, 0, 255, 0);
+    }
+  }
+
+  public void colorSquare(Square s, int r, int g, int b) {
     pushMatrix();
     stroke(255, 0, 0);
     translate(s.getX() * stepX, s.getY() * stepY);
-    // If the square is a wall, fill it with black
-    // If the square is free, fill it with white
-    // If the square is backtracked, fill it with gray
-    // Otherwise it is solution, fill it with green
-    if (s.getState() == 1) {
-      fill(0);
-    } else if (s.getState() == 0) {
-      fill(255);
-    } else if (s.getState() == -1) {
-      fill(125);
-    } else {
-      fill(0, 255, 0);
-    }
+    fill(r, g, b);
     rect(0, 0, stepX, stepY);
     popMatrix();
+
   }
 
 }

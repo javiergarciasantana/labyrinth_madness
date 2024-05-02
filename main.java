@@ -8,43 +8,71 @@
 
 package labyrinth_madness;
 
-import java.io.IOException;
-import java.util.Scanner;;
+import java.util.Scanner;
 
-public class main {
+import processing.core.PApplet;
+
+public class Main {
   public static void main(String[] args) {
+
+    Maze m = new Maze(6, 6, true);
+
+    printMatrix(m.getMatrix());
+
     System.out.println("Welciome to LABYRINTH_MADNESS");
-    Scanner scanner = new Scanner(System.in);
+    // Scanner scanner = new Scanner(System.in);
 
-    while (true) {
-      System.out.println("Please select an option");
-      System.out.println("[0]Exit");
-      System.out.println("[1]Solve using DFS");
-      System.out.println("[2]Solve using BFS");
-      System.out.println("[h] Help");
+    System.out.println("Please select an option");
+    System.out.println("[0]Exit");
+    System.out.println("[1]Solve using DFS");
+    System.out.println("[2]Solve using BFS");
+    System.out.println("[h] Help");
 
-      String input = scanner.nextLine();
+    // String input = scanner.nextLine();
 
-      switch (input) {
-        case "0":
-          System.out.println("Goodbye!");
-          return;
-        case "1":
-          DfsSolver solver_dfs = new DfsSolver();// Call the DFS default constructor(Just initialized 2 variables)
-          solver_dfs.Write();// Simply calls the solve() method and prints the result
+    // Call the DFS default constructor(Just initialized 2 variables)
+    DfsSolver solver_dfs = new DfsSolver(m, 4, 3);
+    solver_dfs.Write();// Simply calls the solve() method and prints the result
+    /*
+     * switch (input) {
+     * case "0":
+     * System.out.println("Goodbye!");
+     * return;
+     * case "1":
+     * // Call the DFS default constructor(Just initialized 2 variables)
+     * DfsSolver solver_dfs = new DfsSolver(m, 5, 4);
+     * solver_dfs.Write();// Simply calls the solve() method and prints the result
+     *
+     * break;
+     * case "2":
+     * // BfsSolver solver_bfs = new BfsSolver();// Call the DFS default
+     * // constructor(Just initialized 2 variables
+     * // solver_bfs.Write();// Simply calls the solve() method and prints the
+     * result
+     * break;
+     * case "h":
+     * System.out.println("No help at the moment");
+     * break;
+     * default:
+     * System.out.println("Please enter a valid option");
+     * break;
+     * }
+     */
 
-          break;
-        case "2":
-          BfsSolver solver_bfs = new BfsSolver();// Call the DFS default constructor(Just initialized 2 variables
-          solver_bfs.Write();// Simply calls the solve() method and prints the result
-          break;
-        case "h":
-          System.out.println("No help at the moment");
-          break;
-        default:
-          System.out.println("Please enter a valid option");
-          break;
+    String[] processingArgs = { "MySketch" };
+    MySketch mySketch = new MySketch(m, solver_dfs);
+    PApplet.runSketch(processingArgs, mySketch);
+
+    printMatrix(m.getMatrix());
+
+  }
+
+  public static void printMatrix(int[][] matrix) {
+    for (int i = 0; i < matrix.length; i++) {
+      for (int j = 0; j < matrix[i].length; j++) {
+        System.out.print(matrix[i][j] + " ");
       }
+      System.out.println();
     }
   }
 }

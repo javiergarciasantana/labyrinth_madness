@@ -21,11 +21,18 @@ public class Maze {
     width_ = w;
     height_ = h;
     maze_ = new Square[width_][height_];
+  }
 
-    // Generate a matrix of random 1s and 0s
-    for (int i = 0; i < width_; i++) { // Iterating over rows
-      for (int j = 0; j < height_; j++) { // Iterating over columns
-        maze_[i][j] = new Square(genBin(), i, j);
+  public Maze(int w, int h, boolean isDiagonal) {
+    width_ = w;
+    height_ = h;
+    maze_ = new Square[width_][height_];
+
+    if (isDiagonal == true) {
+      for (int i = 0; i < width_; i++) {
+        for (int j = 0; j < height_; j++) {
+          maze_[i][j] = new Square(i == j ? 1 : 0, i, j);
+        }
       }
     }
   }
@@ -46,6 +53,16 @@ public class Maze {
     return width_;
   }
 
+  public int[][] getMatrix() {
+    int[][] matrix = new int[width_][height_];
+    for (int i = 0; i < width_; i++) {
+      for (int j = 0; j < height_; j++) {
+        matrix[i][j] = maze_[i][j].getState();
+      }
+    }
+    return matrix;
+  }
+
   /**
    * Checks if the position is at the maze boundary.
    *
@@ -60,12 +77,4 @@ public class Maze {
         (y_pos == height_ - 1 && x_pos >= 0 && x_pos < width_);
   }
 
-  private int genBin() {
-    float r = (float) Math.random();
-    if (r > 0.8) {
-      return 1;
-    } else {
-      return 0;
-    }
-  }
 }

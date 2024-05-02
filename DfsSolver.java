@@ -10,7 +10,6 @@ package labyrinth_madness;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 /**
  * Represents a solver for solving mazes using Depth-First Search algorithm.
@@ -22,7 +21,7 @@ public class DfsSolver {
   // private int trials_;
   private Maze maze_;
   private int initial_x_, initial_y_;
-  protected List<Map.Entry<Integer, Integer>> nodes_ = new ArrayList<>();
+  private List<Square> nodes_ = new ArrayList<>();
   private List<Integer> rules_ = new ArrayList<>();
   private int xMove[] = { -1, 0, 1, 0 };
   private int yMove[] = { 0, -1, 0, 1 };
@@ -31,27 +30,18 @@ public class DfsSolver {
    * Parametric constructor for DfsSolver.
    *
    * @param matrix The maze matrix.
-   * @param l      The length of the maze.
-   * @param w      The width of the maze.
    * @param x      The initial x-coordinate.
    * @param y      The initial y-coordinate.
    */
-  public DfsSolver(int l, int w, int x, int y) {
-    maze_ = new Maze(l, w);
-    step_ = 2;
-    initial_x_ = x - 1;
-    initial_y_ = y - 1;
-    maze_.setElem(initial_x_, initial_y_, step_);
-    nodes_.add(Map.entry(initial_x_, initial_y_));
-  }
 
-  public DfsSolver(Maze m, int l, int w, int x, int y) {
+  public DfsSolver(Maze m, int x, int y) {
     maze_ = m;
     step_ = 2;
     initial_x_ = x - 1;
     initial_y_ = y - 1;
-    maze_.setElem(initial_x_, initial_y_, step_);
-    nodes_.add(Map.entry(initial_x_, initial_y_));
+    Square s = maze_.getSquare(initial_x_, initial_y_);
+    s.setState(step_);
+    nodes_.add(s);
   }
 
   /**
@@ -134,10 +124,13 @@ public class DfsSolver {
       y_next = y_pos + yMove[k];
 
       if (move(x_next, y_next)) {
-        maze_.setElem(x_next, y_next, step);
+        // maze_.setElem(x_next, y_next, step);
+        Square s = maze_.getSquare(x_next, y_next);
+        s.setState(step);
         step_ = step;
         rules_.add(k + 1);
-        nodes_.add(Map.entry(x_next, y_next));
+        // nodes_.add(Map.entry(x_next, y_next));
+        nodes_.add(s);
 
         try {
           // Sleep for 1 second (1000 milliseconds)
@@ -149,9 +142,11 @@ public class DfsSolver {
         if (solve(x_next, y_next, step + 1) == 1) {
           return 1;
         } else {
-          maze_.setElem(x_next, y_next, -1);
+          // maze_.setElem(x_next, y_next, -1);
+          // Square s = maze_.getSquare(x_next, y_next);
+          s.setState(-1);
           rules_.remove(rules_.size() - 1);
-          nodes_.remove(nodes_.size() - 1);
+          nodes_.add(s);
           try {
             // Sleep for 1 second (1000 milliseconds)
             Thread.sleep(1000);
@@ -167,21 +162,20 @@ public class DfsSolver {
   }
 
   /**
-   * Adds a node to the maze.
-   *
-   * @param x The x-coordinate of the node.
-   * @param y The y-coordinate of the node.
-   */
-  public void addToNodes(int x, int y) {
-    nodes_.add(Map.entry(x, y));
-  }
-
-  /**
    * Adds a rule to the maze.
    *
    * @param r The rule to add.
    */
   public void addToRules(int r) {
     rules_.add(r);
+  }
+
+  /**
+   * Returns the list of nodes.
+   *
+   * @return The list of nodes.
+   */
+  public List<Square> getNodes() {
+    return nodes_;
   }
 }
