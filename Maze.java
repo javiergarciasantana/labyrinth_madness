@@ -1,3 +1,10 @@
+// AUTOR: Javier Garcia Santana & Valerio Siniscalco
+// DATE: 19/04/2024
+// VERSION: 4.0
+// COURSE: OOP
+// NAME: Labyrinth Madness
+// COMMENTS: File where the Maze class is declared
+
 package labyrinth_madness;
 
 /**
@@ -11,19 +18,10 @@ public class Maze {
   /**
    * Parametric constructor for Maze.
    *
-   * @param matrix The maze matrix.
-   * @param h      The length of the maze.
-   * @param w      The width of the maze.
-   * @param x      The initial x-coordinate.
-   * @param y      The initial y-coordinate.
+   * @param w The width of the maze.
+   * @param h The height of the maze.
    */
   public Maze(int w, int h) {
-    width_ = w;
-    height_ = h;
-    maze_ = new Square[width_][height_];
-  }
-
-  public Maze(int w, int h, boolean isDiagonal) {
     width_ = w;
     height_ = h;
     maze_ = new Square[width_][height_];
@@ -46,22 +44,51 @@ public class Maze {
     }
   }
 
+  /**
+   * Gets the square at the specified position.
+   *
+   * @param x_pos The x-coordinate.
+   * @param y_pos The y-coordinate.
+   * @return The square at the specified position.
+   */
   public Square getSquare(int x_pos, int y_pos) {
     return maze_[x_pos][y_pos];
   }
 
+  /**
+   * Sets the value of the square at the specified position.
+   *
+   * @param x_pos The x-coordinate.
+   * @param y_pos The y-coordinate.
+   * @param val   The value to set.
+   */
   public void setElem(int x_pos, int y_pos, int val) {
     maze_[x_pos][y_pos].setState(val);
   }
 
+  /**
+   * Gets the height of the maze.
+   *
+   * @return The height of the maze.
+   */
   public int getHeight() {
     return height_;
   }
 
+  /**
+   * Gets the width of the maze.
+   *
+   * @return The width of the maze.
+   */
   public int getWidth() {
     return width_;
   }
 
+  /**
+   * Gets the matrix representation of the maze.
+   *
+   * @return The matrix representation of the maze.
+   */
   public int[][] getMatrix() {
     int[][] matrix = new int[width_][height_];
     for (int i = 0; i < width_; i++) {

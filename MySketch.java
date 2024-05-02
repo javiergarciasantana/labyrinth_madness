@@ -1,8 +1,18 @@
+// AUTOR: Javier Garcia Santana & Valerio Siniscalco
+// DATE: 19/04/2024
+// VERSION: 4.0
+// COURSE: OOP
+// NAME: Labyrinth Madness
+// COMMENTS: File where the MySketch class is declared
+
 package labyrinth_madness;
 
 import processing.core.PApplet;
 import java.util.List;
 
+/**
+ * Represents the sketch for the labyrinth visualization.
+ */
 public class MySketch extends PApplet {
 
   private DfsSolver solver;
@@ -11,6 +21,12 @@ public class MySketch extends PApplet {
   private int stepY;
   private int stepsOverThousand = 1;
 
+  /**
+   * Constructs a MySketch object with the given maze and solver.
+   *
+   * @param m      The maze.
+   * @param solver The solver for the maze.
+   */
   MySketch(Maze m, DfsSolver solver) {
     this.m = m;
     this.solver = solver;
@@ -67,6 +83,11 @@ public class MySketch extends PApplet {
     popMatrix();
   }
 
+  /**
+   * Displays the live path on the maze.
+   *
+   * @param path The path to display.
+   */
   public void displayLivePath(List<Square> path) {
     for (int i = 0; i < path.size(); i++) {
       Square s = path.get(i);
@@ -74,6 +95,14 @@ public class MySketch extends PApplet {
     }
   }
 
+  /**
+   * Colors a square with the given RGB values.
+   *
+   * @param s The square to color.
+   * @param r The red component.
+   * @param g The green component.
+   * @param b The blue component.
+   */
   public void colorSquare(Square s, int r, int g, int b) {
     pushMatrix();
     stroke(255, 0, 0);

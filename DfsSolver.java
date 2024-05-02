@@ -18,7 +18,6 @@ public class DfsSolver {
 
   // Fields
   private int step_;
-  // private int trials_;
   private Maze maze_;
   private int initial_x_, initial_y_;
   private List<Square> nodes_ = new ArrayList<>();
@@ -29,7 +28,7 @@ public class DfsSolver {
   /**
    * Parametric constructor for DfsSolver.
    *
-   * @param matrix The maze matrix.
+   * @param m      The maze.
    * @param x      The initial x-coordinate.
    * @param y      The initial y-coordinate.
    */
@@ -60,36 +59,6 @@ public class DfsSolver {
   private void printData() {
     System.out.println("PART 1. Data\n" + "  1.1. Labyrinth.\n");
   }
-
-  /**
-   * Prints maze table.
-   *
-   * @param header True to print header, false otherwise.
-   */
-  /*
-   * private void printTable(boolean header) {
-   * if (header) {
-   * System.out.println("\nPART 2. Results \n" + "  2.1. Path is found.");
-   * System.out.println("  2.2. Path graphically:");
-   * } else {
-   * System.out.println("ITERATION: " + step_);
-   * }
-   * for (int i = maze_.getLength() - 1; i >= 0; --i) {
-   * for (int j = 0; j < maze_.getWidth(); ++j) {
-   * if (maze_.getElem(j, i) / 10 < 1) {
-   * System.out.print(" ");
-   * }
-   * if (maze_.getElem(j, i) >= 0) {
-   * System.out.print(" " + maze_.getElem(j, i));
-   * } else {
-   * System.out.print(maze_.getElem(j, i));
-   * }
-   * }
-   * System.out.println();
-   * }
-   * System.out.println();
-   * }
-   */
 
   /**
    * Moves to the next position in the maze.

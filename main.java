@@ -15,18 +15,18 @@ import processing.core.PApplet;
 public class Main {
   public static void main(String[] args) {
 
-    Maze m = new Maze(6, 6, true);
+    Maze m = new Maze(6, 6);
 
     printMatrix(m.getMatrix());
 
     System.out.println("Welciome to LABYRINTH_MADNESS");
     // Scanner scanner = new Scanner(System.in);
 
-    System.out.println("Please select an option");
-    System.out.println("[0]Exit");
-    System.out.println("[1]Solve using DFS");
-    System.out.println("[2]Solve using BFS");
-    System.out.println("[h] Help");
+    // System.out.println("Please select an option");
+    // System.out.println("[0]Exit");
+    // System.out.println("[1]Solve using DFS");
+    // System.out.println("[2]Solve using BFS");
+    // System.out.println("[h] Help");
 
     // String input = scanner.nextLine();
 
