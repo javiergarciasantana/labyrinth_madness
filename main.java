@@ -15,9 +15,9 @@ import processing.core.PApplet;
 public class Main {
   public static void main(String[] args) {
 
-    Maze m = new Maze(6, 6);
+    Maze m = new Maze(7, 7);
 
-    printMatrix(m.getMatrix());
+    //printMatrix(m.getMatrix());
 
     System.out.println("Welciome to LABYRINTH_MADNESS");
     // Scanner scanner = new Scanner(System.in);
@@ -31,9 +31,9 @@ public class Main {
     // String input = scanner.nextLine();
 
     // Call the DFS default constructor(Just initialized 2 variables)
-    DfsSolver solver_dfs = new DfsSolver(m, 4, 3);
+    DfsSolver solver_dfs = new DfsSolver(m, 5, 4);
     solver_dfs.Write();// Simply calls the solve() method and prints the result
-    /*
+    /* 
      * switch (input) {
      * case "0":
      * System.out.println("Goodbye!");
@@ -59,11 +59,11 @@ public class Main {
      * }
      */
 
-    String[] processingArgs = { "MySketch" };
-    MySketch mySketch = new MySketch(m, solver_dfs);
-    PApplet.runSketch(processingArgs, mySketch);
+    // String[] processingArgs = { "MySketch" };
+    // MySketch mySketch = new MySketch(m, solver_dfs);
+    // PApplet.runSketch(processingArgs, mySketch);
 
-    printMatrix(m.getMatrix());
+    // printMatrix(m.getMatrix());
 
   }
 

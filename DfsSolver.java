@@ -7,6 +7,8 @@
 //
 
 package labyrinth_madness;
+import processing.core.PApplet;
+
 
 import java.util.ArrayList;
 import java.util.List;
@@ -14,16 +16,10 @@ import java.util.List;
 /**
  * Represents a solver for solving mazes using Depth-First Search algorithm.
  */
-public class DfsSolver {
+public class DfsSolver extends Solver {
 
   // Fields
   private int step_;
-  private Maze maze_;
-  private int initial_x_, initial_y_;
-  private List<Square> nodes_ = new ArrayList<>();
-  private List<Integer> rules_ = new ArrayList<>();
-  private int xMove[] = { -1, 0, 1, 0 };
-  private int yMove[] = { 0, -1, 0, 1 };
 
   /**
    * Parametric constructor for DfsSolver.
@@ -34,44 +30,17 @@ public class DfsSolver {
    */
 
   public DfsSolver(Maze m, int x, int y) {
-    maze_ = m;
+    super(m, x, y, 2);
     step_ = 2;
-    initial_x_ = x - 1;
-    initial_y_ = y - 1;
-    Square s = maze_.getSquare(initial_x_, initial_y_);
-    s.setState(step_);
-    nodes_.add(s);
   }
 
   /**
    * Writes maze information.
    */
   public void Write() {
-    printData();
     if (solve(initial_x_, initial_y_, step_ + 1) == 1) {
-      // printTable(true);
+      printTable();
     }
-  }
-
-  /**
-   * Prints maze data.
-   */
-  private void printData() {
-    System.out.println("PART 1. Data\n" + "  1.1. Labyrinth.\n");
-  }
-
-  /**
-   * Moves to the next position in the maze.
-   *
-   * @param x_pos The current x-coordinate.
-   * @param y_pos The current y-coordinate.
-   * @return True if move is possible, false otherwise.
-   */
-  private boolean move(int x_pos, int y_pos) {
-    return (x_pos >= 0 && y_pos >= 0
-        && x_pos < maze_.getWidth() && y_pos < maze_.getHeight()
-        && maze_.getSquare(x_pos, y_pos).getState() < 1
-        && maze_.getSquare(x_pos, y_pos).getState() > -1);
   }
 
   /**
@@ -83,7 +52,7 @@ public class DfsSolver {
    * @return 1 if the solution is found, 0 otherwise.
    */
   private int solve(int x_pos, int y_pos, int step) {
-    // printTable(false);
+    printTable();
     if (maze_.Finished(x_pos, y_pos)) {
       return 1;
     }
@@ -123,20 +92,11 @@ public class DfsSolver {
             // Handle interruption if needed
             e.printStackTrace();
           }
-          // printTable(false);
+          printTable();
         }
       }
     }
     return 0;
-  }
-
-  /**
-   * Adds a rule to the maze.
-   *
-   * @param r The rule to add.
-   */
-  public void addToRules(int r) {
-    rules_.add(r);
   }
 
   /**
