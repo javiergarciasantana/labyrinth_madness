@@ -8,63 +8,29 @@
 
 package labyrinth_madness;
 
-import java.util.Scanner;
-
 import processing.core.PApplet;
 
-public class Main {
+public class main {
   public static void main(String[] args) {
 
+    System.out.println("Welcome to LABYRINTH_MADNESS");
+
+    // As soon as the program is started, an empty, default-sized maze is created
     Maze m = new Maze(6, 6);
+    // And a solver is created
+    DfsSolver solver = new DfsSolver(m, 4, 3);
+    // NOTE: the size of the maze is hardcoded for now to 800x800
 
-    printMatrix(m.getMatrix());
-
-    System.out.println("Welciome to LABYRINTH_MADNESS");
-    // Scanner scanner = new Scanner(System.in);
-
-    // System.out.println("Please select an option");
-    // System.out.println("[0]Exit");
-    // System.out.println("[1]Solve using DFS");
-    // System.out.println("[2]Solve using BFS");
-    // System.out.println("[h] Help");
-
-    // String input = scanner.nextLine();
-
-    // Call the DFS default constructor(Just initialized 2 variables)
-    DfsSolver solver_dfs = new DfsSolver(m, 4, 3);
-    solver_dfs.Write();// Simply calls the solve() method and prints the result
-    /*
-     * switch (input) {
-     * case "0":
-     * System.out.println("Goodbye!");
-     * return;
-     * case "1":
-     * // Call the DFS default constructor(Just initialized 2 variables)
-     * DfsSolver solver_dfs = new DfsSolver(m, 5, 4);
-     * solver_dfs.Write();// Simply calls the solve() method and prints the result
-     *
-     * break;
-     * case "2":
-     * // BfsSolver solver_bfs = new BfsSolver();// Call the DFS default
-     * // constructor(Just initialized 2 variables
-     * // solver_bfs.Write();// Simply calls the solve() method and prints the
-     * result
-     * break;
-     * case "h":
-     * System.out.println("No help at the moment");
-     * break;
-     * default:
-     * System.out.println("Please enter a valid option");
-     * break;
-     * }
-     */
-
+    // The sketch is started
     String[] processingArgs = { "MySketch" };
-    MySketch mySketch = new MySketch(m, solver_dfs);
+    MySketch mySketch = new MySketch(m, solver);
     PApplet.runSketch(processingArgs, mySketch);
-
-    printMatrix(m.getMatrix());
-
+    // NOTE: the solving is handled by the sketch itself,
+    // repeatedly calling the solver.step() method
+    // TODOO: allow the user to interact with the maze
+    // by left-clicking on the squares to toggle their state
+    // and right-clicking to set the starting point and solve the maze
+    // We will temporarily use a default maze to debug
   }
 
   public static void printMatrix(int[][] matrix) {

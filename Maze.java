@@ -27,13 +27,13 @@ public class Maze {
     maze_ = new Square[width_][height_];
 
     int[][] matrix = {
-      {1, 1, 1, 1, 1, 1, 1},
-      {1, 0, 0, 0, 1, 0, 1},
-      {1, 0, 1, 0, 0, 0, 1},
-      {1, 0, 0, 0, 0, 1, 1},
-      {1, 1, 1, 1, 0, 1, 1},
-      {0, 0, 0, 0, 0, 0, 0},
-      {1, 1, 1, 1, 1, 0, 1}
+        { 1, 1, 1, 1, 1, 1, 1 },
+        { 1, 0, 0, 0, 1, 0, 1 },
+        { 1, 0, 1, 0, 0, 0, 1 },
+        { 1, 0, 0, 0, 0, 1, 1 },
+        { 1, 1, 1, 1, 0, 1, 1 },
+        { 0, 0, 0, 0, 0, 0, 0 },
+        { 1, 1, 1, 1, 1, 0, 1 }
     };
 
     // Copy the values from matrix to maze_
@@ -42,6 +42,7 @@ public class Maze {
         maze_[i][j] = new Square(matrix[i][j], i, j);
       }
     }
+
   }
 
   /**
@@ -51,8 +52,11 @@ public class Maze {
    * @param y_pos The y-coordinate.
    * @return The square at the specified position.
    */
-  public Square getSquare(int x_pos, int y_pos) {
-    return maze_[x_pos][y_pos];
+  public Square getSquare(int x, int y) {
+    if (x < 0 || x >= width_ || y < 0 || y >= height_) {
+      return null;
+    }
+    return maze_[x][y];
   }
 
   /**
@@ -113,4 +117,17 @@ public class Maze {
         (y_pos == height_ - 1 && x_pos >= 0 && x_pos < width_);
   }
 
+  public boolean isEdge(Square s) {
+    return (s.getX() == 0 || s.getX() == width_ - 1 || s.getY() == 0 || s.getY() == height_ - 1);
+  }
+
+  public void printMatrix() {
+    for (int i = 0; i < width_; i++) {
+      for (int j = 0; j < height_; j++) {
+        System.out.print(maze_[i][j].getState() + " ");
+      }
+      System.out.println();
+    }
+    System.out.println("-----------------");
+  }
 }

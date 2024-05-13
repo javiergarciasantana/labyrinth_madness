@@ -14,12 +14,17 @@ import java.util.List;
  * Represents the sketch for the labyrinth visualization.
  */
 public class MySketch extends PApplet {
-
-  private DfsSolver solver;
   private Maze m;
+  private DfsSolver solver;
   private int stepX;
   private int stepY;
-  private int stepsOverThousand = 1;
+  // HARDCODED
+  private int updatingFrames = 50;
+  // private boolean isBeingSolved = false;
+
+  // NOTE: the size of the maze is hardcoded for now to 800x800
+  private int width = 800;
+  private int height = 800;
 
   /**
    * Constructs a MySketch object with the given maze and solver.
@@ -30,8 +35,11 @@ public class MySketch extends PApplet {
   MySketch(Maze m, DfsSolver solver) {
     this.m = m;
     this.solver = solver;
-    stepX = 800 / this.m.getWidth();
-    stepY = 800 / this.m.getHeight();
+    stepX = width / m.getWidth();
+    stepY = height / m.getHeight();
+    System.out.println("Width: " + width + " Height: " + height);
+    System.out.println("Maze Width: " + m.getWidth() + " Maze Height: " + m.getHeight());
+    System.out.println("StepX: " + stepX + " StepY: " + stepY);
   }
 
   public void settings() {
@@ -40,31 +48,45 @@ public class MySketch extends PApplet {
 
   public void draw() {
     background(150);
+    // Draw the grid
     drawGrid();
-    renderMaze();
-    displayLivePath(solver.getNodes().subList(0, stepsOverThousand));
-    if (frameCount % 60 == 0 && stepsOverThousand < solver.getNodes().size()) {
-      stepsOverThousand++;
-
+    // Step ahead in the solver
+    // This step updates the state of the maze every time
+    if (frameCount % updatingFrames == 0) {
+      solver.step();
     }
+    // Render the maze
+    renderMaze();
   }
 
   public void renderMaze() {
-    for (int i = 0; i < m.getWidth(); i++) { // Iterating over rows
-      for (int j = 0; j < m.getHeight(); j++) { // Iterating over columns
-        Square s = m.getSquare(i, j);
-        if (s.getState() == 1) {
-          colorSquare(s, 0, 0, 0);
-        } else {
-          colorSquare(s, 255, 255, 255);
-        }
+    for (int i = 0; i < m.getWidth(); i++) {
+      for (int j = 0; j < m.getHeight(); j++) {
+        renderSquare(m.getSquare(i, j));
       }
     }
   }
 
+  public void renderSquare(Square s) {
+    pushMatrix();
+    int pos[] = calculateSquarePos(s);
+    translate(pos[0], pos[1]);
+    if (s.getState() == 1) {
+      fill(0);
+    } else if (s.getState() == 0) {
+      fill(255);
+    } else if (s.getState() == -1) {
+      fill(255, 0, 0);
+    } else {
+      fill(0, 255, 0);
+    }
+    rect(0, 0, stepX, stepY);
+    popMatrix();
+  }
+
   private void drawGrid() {
     pushMatrix();
-    strokeWeight(4);
+    strokeWeight(2);
     stroke(255, 0, 0);
 
     pushMatrix();
@@ -110,7 +132,13 @@ public class MySketch extends PApplet {
     fill(r, g, b);
     rect(0, 0, stepX, stepY);
     popMatrix();
+  }
 
+  public int[] calculateSquarePos(Square s) {
+    int[] pos = new int[2];
+    pos[0] = s.getX() * stepX;
+    pos[1] = s.getY() * stepY;
+    return pos;
   }
 
 }

@@ -46,6 +46,18 @@ public class Square {
   }
 
   /**
+   * Switches the state of the square and returns the new state.
+   */
+  public int switchState() {
+    if (state == 0) {
+      state = 1;
+    } else {
+      state = 0;
+    }
+    return state;
+  }
+
+  /**
    * Gets the x-coordinate of the square.
    *
    * @return The x-coordinate of the square.
@@ -81,6 +93,9 @@ public class Square {
     this.y = y;
   }
 
+  public boolean isFree() {
+    return state == 0;
+  }
 
   /*
    * public int getStep() {
