@@ -5,6 +5,7 @@
 // NAME: Labyrinth Madness
 // COMMENTS: File where the Solver class is declared
 //
+
 package labyrinth_madness;
 
 import java.util.ArrayList;
