@@ -9,7 +9,6 @@
 package labyrinth_madness.src;
 
 import java.util.Scanner;
-
 import processing.core.PApplet;
 
 public class Main {
@@ -58,9 +57,9 @@ public class Main {
     }
 
     // printMatrix(m.getMatrix());
-    String[] processingArgs = { "MySketch" };
-    MySketch mySketch = new MySketch(m, solver_dfs);
-    PApplet.runSketch(processingArgs, mySketch);
+    // String[] processingArgs = { "MySketch" };
+    // MySketch mySketch = new MySketch(m, solver_dfs);
+    // PApplet.runSketch(processingArgs, mySketch);
     
 
   }

@@ -29,7 +29,7 @@ public class BfsSolver extends Solver {
    */
   public BfsSolver(Maze m, int x, int y) {
     super(m, x, y, 2);
-    wave_ = 2;
+    wave_ = 1;
     cola_.add(new AbstractMap.SimpleEntry<>(initial_x_, initial_y_));
   }
 
@@ -39,19 +39,21 @@ public class BfsSolver extends Solver {
    * Writes maze data.
    */
   public void Write() {
-    if (Solve(wave_) == 0) {
-      printTable();
+    // if (Solve() == 0) {
+    //   printTable();
+    // }
+    int result = 0;
+    while(result == 0) {
+      result = Solve();
     }
   }
 
   /**
    * Solves the maze.
    *
-   * @param wave  The current wave number.
    * @return      1 if solution is found, 0 otherwise.
    */
-  private int Solve(int wave) {
-    --wave_;
+  private int Solve() {
     while (!cola_.isEmpty()) {
       Map.Entry<Integer, Integer> k = cola_.poll();
       int x_pos = k.getKey();
@@ -84,6 +86,7 @@ public class BfsSolver extends Solver {
           }
         } 
       }
+      return 0;
     }
     return 0;
   }

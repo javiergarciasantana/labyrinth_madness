@@ -60,12 +60,10 @@ public class DfsSolver extends Solver {
       y_next = y_pos + yMove[k];
 
       if (move(x_next, y_next)) {
-        // maze_.setElem(x_next, y_next, step);
         Square s = maze_.getSquare(x_next, y_next);
         s.setState(step);
         step_ = step;
         rules_.add(k + 1);
-        // nodes_.add(Map.entry(x_next, y_next));
         nodes_.add(s);
 
         try {
@@ -78,8 +76,6 @@ public class DfsSolver extends Solver {
         if (solve(x_next, y_next, step + 1) == 1) {
           return 1;
         } else {
-          // maze_.setElem(x_next, y_next, -1);
-          // Square s = maze_.getSquare(x_next, y_next);
           s.setState(-1);
           rules_.remove(rules_.size() - 1);
           nodes_.add(s);
