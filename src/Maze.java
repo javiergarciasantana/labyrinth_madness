@@ -5,7 +5,7 @@
 // NAME: Labyrinth Madness
 // COMMENTS: File where the Maze class is declared
 
-package labyrinth_madness;
+package labyrinth_madness.src;
 
 /**
  * Represents a maze for solving labyrinth problems.

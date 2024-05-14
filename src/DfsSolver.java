@@ -6,9 +6,7 @@
 // COMMENTS: File where the DfsSolver class is declared
 //
 
-package labyrinth_madness;
-import processing.core.PApplet;
-
+package labyrinth_madness.src;
 
 import java.util.ArrayList;
 import java.util.List;

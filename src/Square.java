@@ -5,7 +5,7 @@
 // NAME: Labyrinth Madness
 // COMMENTS: File where the Square class is declared
 
-package labyrinth_madness;
+package labyrinth_madness.src;
 
 /**
  * Represents a square in the labyrinth.

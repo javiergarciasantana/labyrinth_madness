@@ -6,7 +6,7 @@
 // COMMENTS: File where the BfsSolver class is declared
 //
 
-package labyrinth_madness;
+package labyrinth_madness.src;
 
 import java.io.*;
 import java.util.*;

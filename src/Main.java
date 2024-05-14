@@ -6,7 +6,7 @@
 // COMMENTS: Main file
 //
 
-package labyrinth_madness;
+package labyrinth_madness.src;
 
 import java.util.Scanner;
 
@@ -27,20 +27,19 @@ public class Main {
     System.out.println("[h] Help");
 
     String input = scanner.nextLine();
+    
+    DfsSolver solver_dfs = null;
+    BfsSolver solver_bfs = null;
 
     switch (input) {
       case "0":
         System.out.println("Goodbye!");
         return;
       case "1":
-        // Call the DFS default constructor(Just initialized 2 variables)
-        DfsSolver solver_dfs = new DfsSolver(m, 5, 4);
-        solver_dfs.Write();// Simply calls the solve() method and prints the result
-
+        solver_dfs = new DfsSolver(m, 5, 4);
         break;
       case "2":
-        BfsSolver solver_bfs = new BfsSolver(m, 5, 4);// Call the DFS default constructor(Just initialized 2 variables
-        solver_bfs.Write();// Simply calls the solve() method and prints the result
+        solver_bfs = new BfsSolver(m, 5, 4);
         break;
       case "h":
         System.out.println("No help at the moment");
@@ -50,11 +49,19 @@ public class Main {
         break;
     }
 
-    // String[] processingArgs = { "MySketch" };
-    // MySketch mySketch = new MySketch(m, solver_dfs);
-    // PApplet.runSketch(processingArgs, mySketch);
+    if (solver_dfs != null) {
+      solver_dfs.Write();
+    }
+
+    if (solver_bfs != null) {
+      solver_bfs.Write();
+    }
 
     // printMatrix(m.getMatrix());
+    String[] processingArgs = { "MySketch" };
+    MySketch mySketch = new MySketch(m, solver_dfs);
+    PApplet.runSketch(processingArgs, mySketch);
+    
 
   }
 
