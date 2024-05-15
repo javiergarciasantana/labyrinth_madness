@@ -91,7 +91,8 @@ public class MySketch extends PApplet {
         fill(0, 0, 255);
       } else if (s.isInList()) {
         fill(0, 255, 255);
-      } else if (s.isBacktracked()) {
+      }
+      if (s.isBacktracked()) {
         fill(255, 0, 0);
       }
 
