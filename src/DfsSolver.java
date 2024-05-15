@@ -11,104 +11,107 @@ package labyrinth_madness.src;
 /**
  * Represents a solver for solving mazes using Depth-First Search algorithm.
  */
+/**
+ * The DfsSolver class represents a solver that uses Depth-First Search (DFS)
+ * algorithm to solve a maze.
+ * It extends the Solver class.
+ */
 public class DfsSolver extends Solver {
 
-  // Fields
-  private int step_;
-  private boolean isBacktracking = false;
-
   /**
-   * Parametric constructor for DfsSolver.
+   * Constructs a new DfsSolver object with the specified maze, starting position,
+   * and search depth.
    *
-   * @param m The maze.
-   * @param x The initial x-coordinate.
-   * @param y The initial y-coordinate.
+   * @param m The maze to be solved.
+   * @param x The x-coordinate of the starting position.
+   * @param y The y-coordinate of the starting position.
    */
   public DfsSolver(Maze m, int x, int y) {
     super(m, x, y, 2);
-    step_ = 2;
   }
 
-  // Here we do the same as in the solve() method,
-  // but the rules are applied one by one
-  public void Step() {
-    // If the current position is the exit, return
-    if (maze_.isEdge(getCurrent())) {
-      maze_.printMatrix(); // Debugging
-      return;
+  /**
+   * Performs a single step of the DFS algorithm to solve the maze.
+   *
+   * @return true if a solution is found, false otherwise.
+   */
+  public boolean Step() {
+
+    if (solution != null) {
+      solution.setVisited(true);
+      return true;
     }
-    int start;
-    // Otherwise, keep looking for the exit
-    if (!isBacktracking) {
-      // If we are not backtracking, we apply the rules from the first one
-      start = 0;
-    } else {
-      // But if we are backtracking, it means that we have already tried some rules
-      // Specifically, the last rule in the list is the inverse of the one that led us
-      // to the dead end
-      // So we start from the successive to its inverse
-      start = (getInverseRule(rules_.get(rules_.size() - 1)) + 1) % 4;
-      // Then we remove it, cause we are not going to use it anymore and
-      // it is not part of the solution
-      rules_.remove(rules_.size() - 1);
+
+    Square currentSquare = popCurrent();
+
+    if (currentSquare == null) {
+      return false;
     }
-    for (int k = start; k < 4; ++k) {
-      // Calculate the next square
-      Square nextSquare = moveSquare(getCurrent(), moves[k]);
-      // If the move is allowed...
+
+    boolean isDeadEnd = true;
+    currentSquare.setVisited(true);
+    for (int k = 0; k < 4; ++k) {
+      Square nextSquare = moveSquare(currentSquare, moves[k]);
       if (nextSquare != null && nextSquare.isFree()) {
-        // Move to the next position
-        forwardStep(nextSquare, k);
-        maze_.printMatrix(); // Debugging
-        return;
+        isDeadEnd = false;
+        nextSquare.setState(currentSquare.getState() + 1);
+        pushNext(nextSquare);
+        nextSquare.setParent(currentSquare);
+        if (maze_.isEdge(nextSquare)) {
+          solution = nextSquare;
+          return true;
+        }
       }
     }
-    // If we are here, it means that we have tried all the possible moves
-    // And none of them is valid
-    // So we need to backtrack
-    backtrackStep();
-    maze_.printMatrix(); // Debugging
+
+    if (isDeadEnd) {
+      backtrackUntilNextNode(currentSquare);
+    }
+
+    return false;
+  }
+
+  /**
+   * Backtracks from the current square until the next node in the stack is
+   * reached. Sets the state of the squares to -1.
+   *
+   * @param current The current square.
+   */
+  public void backtrackUntilNextNode(Square current) {
+    Square deadend = current;
+    while (deadend != null && deadend.getState() != getCurrentSquare().getState() - 1) {
+      deadend.setState(-1);
+      System.out.println("Backtracking: " + deadend.getX() + " " + deadend.getY());
+      deadend = deadend.getParent();
+    }
     return;
   }
 
-  private int getInverseRule(int rule) {
-    return (rule + 2) % 4;
+  /**
+   * Returns the current square without removing it from the stack.
+   *
+   * @return The current square, or null if the stack is empty.
+   */
+  public Square getCurrentSquare() {
+    return nodes_.peekLast();
   }
 
-  // Gets the new square after applying the rule
-  // Null if the move is not possible
-  private Square moveSquare(Square s, int rule[]) {
-    return maze_.getSquare(s.getX() + rule[0], s.getY() + rule[1]);
+  /**
+   * Pushes the specified square onto the stack.
+   *
+   * @param next The square to be pushed.
+   */
+  private void pushNext(Square next) {
+    nodes_.offerLast(next);
   }
 
-  private void backtrackStep() {
-    // Set the state of the dead end to -1
-    getCurrent().setState(-1);
-    // Go back to the last position where we had a choice (the previous node)
-    // Note that we just remove the last node,
-    // So that the new head (that we use as current position)
-    // will be the previous node
-    nodes_.remove(nodes_.size() - 1);
-    // And set the backtracking flag to true
-    isBacktracking = true;
-    // NOTE: we don't remove the last rule
-    // Because we need it to know which rule led us to the dead end
-    // And reverse it
-    // We will remove it in the step() method
-  }
-
-  private void forwardStep(Square nextSquare, int ruleIndex) {
-    // Move to the next position
-    // Which means add the node to the list of nodes
-    nodes_.add(nextSquare);
-    // Increment the step number
-    step_++;
-    // Update the state of the square
-    getCurrent().setState(step_);
-    // Add the rule to the list of rules
-    rules_.add(ruleIndex);
-    // Update the backtracking flag
-    isBacktracking = false;
+  /**
+   * Pops the top square from the stack.
+   *
+   * @return The popped square, or null if the stack is empty.
+   */
+  private Square popCurrent() {
+    return nodes_.pollLast();
   }
 
 }

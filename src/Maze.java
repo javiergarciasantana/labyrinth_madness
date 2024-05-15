@@ -27,12 +27,15 @@ public class Maze {
     maze_ = new Square[width_][height_];
 
     int[][] matrix = {
+        // in the visual representation, the first index is the column from left to
+        // right
+        // and the second is the row from top to bottom
         { 1, 1, 1, 1, 1, 1, 1 },
         { 1, 0, 0, 0, 1, 0, 1 },
         { 1, 0, 1, 0, 0, 0, 1 },
         { 1, 0, 0, 0, 0, 1, 1 },
         { 1, 1, 1, 1, 0, 1, 1 },
-        { 0, 0, 0, 0, 0, 0, 0 },
+        { 0, 0, 0, 0, 0, 1, 0 },
         { 1, 1, 1, 1, 1, 0, 1 }
     };
 
@@ -106,28 +109,10 @@ public class Maze {
   /**
    * Checks if the position is at the maze boundary.
    *
-   * @param x_pos The x-coordinate.
-   * @param y_pos The y-coordinate.
-   * @return True if at boundary, false otherwise.
+   * @param s The square to check.
+   * @return True if at the edge, false otherwise.
    */
-  public boolean Finished(int x_pos, int y_pos) {
-    return (x_pos == 0 && y_pos >= 0 && y_pos < height_) ||
-        (y_pos == 0 && x_pos >= 0 && x_pos < width_) ||
-        (x_pos == width_ - 1 && y_pos >= 0 && y_pos < height_) ||
-        (y_pos == height_ - 1 && x_pos >= 0 && x_pos < width_);
-  }
-
   public boolean isEdge(Square s) {
     return (s.getX() == 0 || s.getX() == width_ - 1 || s.getY() == 0 || s.getY() == height_ - 1);
-  }
-
-  public void printMatrix() {
-    for (int i = 0; i < width_; i++) {
-      for (int j = 0; j < height_; j++) {
-        System.out.print(maze_[i][j].getState() + " ");
-      }
-      System.out.println();
-    }
-    System.out.println("-----------------");
   }
 }

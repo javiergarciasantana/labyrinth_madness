@@ -4,59 +4,82 @@
 // COURSE: OOP
 // NAME: Labyrinth Madness
 // COMMENTS: File where the BfsSolver class is declared
-//
 
 package labyrinth_madness.src;
 
-import java.util.*;
-
+/**
+ * This class represents a Breadth-First Search (BFS) solver for a maze.
+ * It extends the Solver class and implements the solving algorithm using BFS.
+ */
 public class BfsSolver extends Solver {
-  // Fields
-  private int wave_;
-  private Queue<TreeNode> queue_ = new LinkedList<>();
-  private TreeNode root;
 
-  // Constructors
+  /**
+   * Constructs a new BfsSolver object with the specified maze and starting
+   * position.
+   *
+   * @param m The maze to be solved.
+   * @param x The x-coordinate of the starting position.
+   * @param y The y-coordinate of the starting position.
+   */
   public BfsSolver(Maze m, int x, int y) {
     super(m, x, y, 2);
-    wave_ = 1;
-    root = new TreeNode(m.getSquare(x - 1, y - 1), null);
-    queue_.add(root);
   }
 
-  // Methods
-  public void Write() {
-    int result = 0;
-    while (result == 0) {
-      result = Step();
+  /**
+   * Performs a single step of the BFS solving algorithm.
+   *
+   * @return true if the solution is found, false otherwise.
+   */
+  public boolean Step() {
+    if (solution != null) {
+      return true;
     }
-    root.printTree(root, ""); // Print the tree after solving
-  }
-
-  public int Step() {
-    while (!queue_.isEmpty()) {
-      TreeNode node = queue_.poll();
-      Square square = node.getSquare();
-      int x_pos = square.getX();
-      int y_pos = square.getY();
-      if (wave_ < square.getState()) {
-        ++wave_;
-        printTable();
-      }
-      for (int j = 0; j < 4; ++j) {
-        if (move(x_pos + xMove[j], y_pos + yMove[j])) {
-          Square nextSquare = maze_.getSquare(x_pos + xMove[j], y_pos + yMove[j]);
-          nextSquare.setState(square.getState() + 1);
-          TreeNode childNode = new TreeNode(nextSquare, node);
-          node.addChild(childNode);
-          queue_.add(childNode);
-          if (maze_.Finished(x_pos + xMove[j], y_pos + yMove[j])) {
-            printTable();
-            return 1;
-          }
+    Square currentSquare = dequeueCurrent();
+    if (currentSquare == null) {
+      return false;
+    }
+    currentSquare.setVisited(true);
+    for (int k = 0; k < 4; ++k) {
+      Square nextSquare = moveSquare(currentSquare, moves[k]);
+      if (nextSquare != null && nextSquare.isFree()) {
+        nextSquare.setState(currentSquare.getState() + 1);
+        enqueueNext(nextSquare);
+        nextSquare.setParent(currentSquare);
+        if (maze_.isEdge(nextSquare)) {
+          solution = nextSquare;
+          solution.setVisited(true);
+          return true;
         }
       }
     }
-    return 0;
+    return false;
+  }
+
+  /**
+   * Returns the current square without removing it from the queue.
+   *
+   * @return The current square, or null if the queue is empty.
+   */
+  public Square getCurrentSquare() {
+    return nodes_.peekLast();
+  }
+
+  /**
+   * Appends the next square to be processed at the head of the deque.
+   *
+   * @param next, the next square to be processed.
+   *
+   */
+  private void enqueueNext(Square next) {
+    nodes_.offerFirst(next);
+  }
+
+  /**
+   * Removes the current square from the tail of the deque.
+   *
+   * @return The current square, null if empty.
+   */
+  private Square dequeueCurrent() {
+    return nodes_.pollLast();
   }
 }

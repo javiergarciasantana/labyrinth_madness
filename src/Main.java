@@ -12,7 +12,7 @@ import java.util.Scanner;
 import processing.core.PApplet;
 
 public class Main {
-  public static void main(String[] args) {
+  public static void main2(String[] args) {
 
     Maze m = new Maze(7, 7);
 
@@ -49,11 +49,11 @@ public class Main {
     }
 
     if (solver_dfs != null) {
-      solver_dfs.Write();
+      // solver_dfs.Write();
     }
 
     if (solver_bfs != null) {
-      solver_bfs.Write();
+      // solver_bfs.Write();
     }
 
     // printMatrix(m.getMatrix());
@@ -61,6 +61,17 @@ public class Main {
     // MySketch mySketch = new MySketch(m, solver_dfs);
     // PApplet.runSketch(processingArgs, mySketch);
 
+  }
+
+  public static void main(String[] args) {
+
+    Maze m = new Maze(7, 7);
+    Solver solver = new BfsSolver(m, 4, 3);
+    // NOTE: the size of the maze is hardcoded for now to 800x800
+
+    String[] processingArgs = { "MySketch" };
+    MySketch mySketch = new MySketch(m, solver);
+    PApplet.runSketch(processingArgs, mySketch);
   }
 
   public static void printMatrix(int[][] matrix) {

@@ -8,23 +8,25 @@
 package labyrinth_madness.src;
 
 import processing.core.PApplet;
-import java.util.List;
 
 /**
  * Represents the sketch for the labyrinth visualization.
  */
 public class MySketch extends PApplet {
   private Maze m;
-  private DfsSolver solver;
+  private Solver solver;
   private int stepX;
   private int stepY;
   // HARDCODED
-  private int updatingFrames = 50;
+  private int updatingFrames = 20;
   // private boolean isBeingSolved = false;
 
   // NOTE: the size of the maze is hardcoded for now to 800x800
   private int width = 800;
   private int height = 800;
+
+  private int[] solverPosition = { 0, 0 };
+  private boolean mazeSolved = false;
 
   /**
    * Constructs a MySketch object with the given maze and solver.
@@ -32,7 +34,7 @@ public class MySketch extends PApplet {
    * @param m      The maze.
    * @param solver The solver for the maze.
    */
-  MySketch(Maze m, DfsSolver solver) {
+  MySketch(Maze m, Solver solver) {
     this.m = m;
     this.solver = solver;
     stepX = width / m.getWidth();
@@ -48,15 +50,22 @@ public class MySketch extends PApplet {
 
   public void draw() {
     background(150);
-    // Draw the grid
     drawGrid();
-    // Step ahead in the solver
-    // This step updates the state of the maze every time
+
     if (frameCount % updatingFrames == 0) {
-      solver.step();
+      if (!mazeSolved) {
+        mazeSolved = solver.Step();
+      } else {
+        Square solution = solver.getSolution();
+        solution.rebuildPathToOrigin();
+      }
     }
+
     // Render the maze
     renderMaze();
+
+    renderSolver();
+
   }
 
   public void renderMaze() {
@@ -71,15 +80,23 @@ public class MySketch extends PApplet {
     pushMatrix();
     int pos[] = calculateSquarePos(s);
     translate(pos[0], pos[1]);
-    if (s.getState() == 1) {
+    if (s.isWall()) {
       fill(0);
-    } else if (s.getState() == 0) {
+    } else if (s.isFree()) {
       fill(255);
-    } else if (s.getState() == -1) {
-      fill(255, 0, 0);
     } else {
-      fill(0, 255, 0);
+      if (s.isSolution()) {
+        fill(0, 255, 0);
+      } else if (s.isVisited()) {
+        fill(0, 0, 255);
+      } else if (s.isInList()) {
+        fill(0, 255, 255);
+      } else if (s.isBacktracked()) {
+        fill(255, 0, 0);
+      }
+
     }
+
     rect(0, 0, stepX, stepY);
     popMatrix();
   }
@@ -105,40 +122,28 @@ public class MySketch extends PApplet {
     popMatrix();
   }
 
-  /**
-   * Displays the live path on the maze.
-   *
-   * @param path The path to display.
-   */
-  public void displayLivePath(List<Square> path) {
-    for (int i = 0; i < path.size(); i++) {
-      Square s = path.get(i);
-      colorSquare(s, 0, 255, 0);
-    }
-  }
-
-  /**
-   * Colors a square with the given RGB values.
-   *
-   * @param s The square to color.
-   * @param r The red component.
-   * @param g The green component.
-   * @param b The blue component.
-   */
-  public void colorSquare(Square s, int r, int g, int b) {
-    pushMatrix();
-    stroke(255, 0, 0);
-    translate(s.getX() * stepX, s.getY() * stepY);
-    fill(r, g, b);
-    rect(0, 0, stepX, stepY);
-    popMatrix();
-  }
-
   public int[] calculateSquarePos(Square s) {
     int[] pos = new int[2];
     pos[0] = s.getX() * stepX;
     pos[1] = s.getY() * stepY;
     return pos;
+  }
+
+  public void renderSolver() {
+    Square currentSquare;
+    if (solver.getNodes().size() > 0 && solver.solution == null) {
+      currentSquare = solver.getCurrentSquare();
+      solverPosition[0] = currentSquare.getX();
+      solverPosition[1] = currentSquare.getY();
+    }
+    if (solver.solution != null) {
+      solverPosition[0] = solver.getSolution().getX();
+      solverPosition[1] = solver.getSolution().getY();
+    }
+    pushMatrix();
+    translate(solverPosition[0] * stepX + stepX / 2, solverPosition[1] * stepY + stepY / 2);
+    circle(0, 0, 20);
+    popMatrix();
   }
 
 }

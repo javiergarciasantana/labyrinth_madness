@@ -8,19 +8,19 @@
 
 package labyrinth_madness.src;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Deque;
+import java.util.LinkedList;
 
-public class Solver {
+public abstract class Solver {
 
   // Fields
   protected Maze maze_;
   // Not needed, cause the head of the list is the current position
   // protected int initial_x_, initial_y_;
-  protected List<Square> nodes_ = new ArrayList<>();
-  protected List<Integer> rules_ = new ArrayList<>();
+  protected Deque<Square> nodes_ = new LinkedList<>();
+  // protected Deque<Integer> rules_ = new LinkedList<>();
   protected int moves[][] = { { -1, 0 }, { 0, -1 }, { 1, 0 }, { 0, 1 } };
-  // protected Tree tree;
+  protected Square solution;
 
   // Constructors
 
@@ -34,25 +34,17 @@ public class Solver {
    */
   protected Solver(Maze m, int x, int y, int step) {
     maze_ = m;
-    nodes_.add(maze_.getSquare(x, y));
-    getCurrent().setState(step_);
 
+    // Starting position
+    Square start = maze_.getSquare(x, y);
+    start.setState(step);
+    nodes_.add(start);
   }
 
-  // Methods
+  // Abstract methods
+  public abstract boolean Step();
 
-  /**
-   * Moves to the specified position.
-   *
-   * @param x_pos The x-coordinate of the position.
-   * @param y_pos The y-coordinate of the position.
-   * @return True if move is valid, false otherwise.
-   */
-  protected boolean move(int x_pos, int y_pos) {
-    return (x_pos >= 0 && y_pos >= 0
-        && x_pos < maze_.getWidth() && y_pos < maze_.getHeight()
-        && maze_.getSquare(x_pos, y_pos).getState() == 0);
-  }
+  protected abstract Square getCurrentSquare();
 
   /**
    * Prints the maze table.
@@ -78,26 +70,26 @@ public class Solver {
   }
 
   /**
-   * Adds a rule to the maze.
-   *
-   * @param r The rule to add.
-   */
-  protected void addToRules(int r) {
-    rules_.add(r);
-  }
-
-  // Returns the last node, i.e., the current position
-  protected Square getCurrent() {
-    return nodes_.get(nodes_.size() - 1);
-  }
-
-  /**
    * Returns the list of nodes.
    *
    * @return The list of nodes.
    */
-  public List<Square> getNodes() {
+  public Deque<Square> getNodes() {
     return nodes_;
+  }
+
+  // Gets the new square after applying the rule
+  // Null if the move is not possible
+  protected Square moveSquare(Square s, int rule[]) {
+    return maze_.getSquare(s.getX() + rule[0], s.getY() + rule[1]);
+  }
+
+  protected void setSolution(Square s) {
+    solution = s;
+  }
+
+  protected Square getSolution() {
+    return solution;
   }
 
 }

@@ -7,12 +7,17 @@
 
 package labyrinth_madness.src;
 
+import java.util.List;
+
 /**
  * Represents a square in the labyrinth.
  */
 public class Square {
   private int state; // 1 wall, 0 free, -1 backtracked, >=2 solution
   private int x, y; // coordinates of the square
+  private Square parent;
+  private boolean visited;
+  private boolean isSolution;
 
   /**
    * Constructs a square with the given state and coordinates.
@@ -25,6 +30,7 @@ public class Square {
     this.state = state;
     this.x = x;
     this.y = y;
+    this.parent = null;
   }
 
   /**
@@ -93,17 +99,65 @@ public class Square {
     this.y = y;
   }
 
+  public Square getParent() {
+    return parent;
+  }
+
+  public void setParent(Square parent) {
+    this.parent = parent;
+  }
+
+  // Method to print the tree
+  public void printTree(TreeNode node, String indent) {
+    if (node == null)
+      return;
+    System.out.println(indent + "└─ " + node.getSquare().getState()); // Print square data with indentation
+    List<TreeNode> children = node.getChildren();
+    for (int i = 0; i < children.size(); i++) {
+      TreeNode child = children.get(i);
+      // Adjust indentation based on the position of the child
+      String childIndent = indent + (i == children.size() - 1 ? "    " : "│   ");
+      printTree(child, childIndent); // Recursively print children with updated indentation
+    }
+  }
+
+  public void setVisited(boolean visited) {
+    this.visited = visited;
+  }
+
+  public void setIsSolution(boolean isSolution) {
+    this.isSolution = isSolution;
+  }
+
+  public void rebuildPathToOrigin() {
+    isSolution = true;
+    if (parent != null) {
+      parent.setIsSolution(true);
+      parent.rebuildPathToOrigin();
+    }
+  }
+
+  public boolean isWall() {
+    return state == 1;
+  }
+
   public boolean isFree() {
     return state == 0;
   }
 
-  /*
-   * public int getStep() {
-   * return step;
-   * }
-   *
-   * public void setStep(int step) {
-   * this.step = step;
-   * }
-   */
+  public boolean isBacktracked() {
+    return state == -1;
+  }
+
+  public boolean isInList() {
+    return state >= 2;
+  }
+
+  public boolean isSolution() {
+    return isSolution;
+  }
+
+  public boolean isVisited() {
+    return visited;
+  }
 }
