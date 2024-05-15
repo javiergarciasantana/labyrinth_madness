@@ -5,7 +5,7 @@
 // NAME: Labyrinth Madness
 // COMMENTS: File where the MySketch class is declared
 
-package labyrinth_madness;
+package labyrinth_madness.src;
 
 import processing.core.PApplet;
 import java.util.List;

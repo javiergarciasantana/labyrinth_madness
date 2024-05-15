@@ -5,7 +5,7 @@
 // NAME: Labyrinth Madness
 // COMMENTS: File where the Maze class is declared
 
-package labyrinth_madness;
+package labyrinth_madness.src;
 
 /**
  * Represents a maze for solving labyrinth problems.
@@ -27,6 +27,7 @@ public class Maze {
     maze_ = new Square[width_][height_];
 
     int[][] matrix = {
+<<<<<<< HEAD:Maze.java
         { 1, 1, 1, 1, 1, 1, 1 },
         { 1, 0, 0, 0, 1, 0, 1 },
         { 1, 0, 1, 0, 0, 0, 1 },
@@ -34,7 +35,18 @@ public class Maze {
         { 1, 1, 1, 1, 0, 1, 1 },
         { 0, 0, 0, 0, 0, 0, 0 },
         { 1, 1, 1, 1, 1, 0, 1 }
+=======
+      {1, 0, 1, 1, 1, 1, 1},
+      {1, 0, 1, 0, 0, 0, 1},
+      {1, 0, 1, 0, 1, 0, 1},
+      {1, 0, 1, 0, 0, 0, 1},
+      {1, 0, 0, 0, 0, 1, 1},
+      {0, 0, 1, 1, 0, 0, 1},
+      {1, 0, 1, 1, 1, 1, 1}
+>>>>>>> bed4544aeed728659ea218a19bbe33432822e579:src/Maze.java
     };
+  
+  
 
     // Copy the values from matrix to maze_
     for (int i = 0; i < width_; i++) {

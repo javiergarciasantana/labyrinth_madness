@@ -6,7 +6,7 @@
 // COMMENTS: File where the DfsSolver class is declared
 //
 
-package labyrinth_madness;
+package labyrinth_madness.src;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -14,10 +14,11 @@ import java.util.List;
 /**
  * Represents a solver for solving mazes using Depth-First Search algorithm.
  */
-public class DfsSolver {
+public class DfsSolver extends Solver {
 
   // Fields
   private int step_;
+<<<<<<< HEAD:DfsSolver.java
   private Maze maze_;
 
   // Instead of specifying the initial x and y coordinates
@@ -32,6 +33,8 @@ public class DfsSolver {
   private List<Integer> rules_ = new ArrayList<>();
   private int move[][] = { { -1, 0 }, { 0, -1 }, { 1, 0 }, { 0, 1 } };
   private boolean isBacktracking = false;
+=======
+>>>>>>> bed4544aeed728659ea218a19bbe33432822e579:src/DfsSolver.java
 
   /**
    * Parametric constructor for DfsSolver.
@@ -43,8 +46,9 @@ public class DfsSolver {
   // We are working with the real coordinates (from 0)
   // and not the professor's ones (from 1)
   public DfsSolver(Maze m, int x, int y) {
-    maze_ = m;
+    super(m, x, y, 2);
     step_ = 2;
+<<<<<<< HEAD:DfsSolver.java
     // Add the initial position to the list of nodes
     // TODOO: check if the initial position is valid
     // or if we need to default to the first free square
@@ -92,6 +96,69 @@ public class DfsSolver {
     backtrackStep();
     maze_.printMatrix(); // Debugging
     return;
+=======
+  }
+
+  /**
+   * Writes maze information.
+   */
+  public void Write() {
+    if (solve(initial_x_, initial_y_, step_ + 1) == 1) {
+      printTable();
+    }
+  }
+
+  /**
+   * Solves the maze using Depth-First Search algorithm.
+   *
+   * @param x_pos The current x-coordinate.
+   * @param y_pos The current y-coordinate.
+   * @param step  The current step number.
+   * @return 1 if the solution is found, 0 otherwise.
+   */
+  private int solve(int x_pos, int y_pos, int step) {
+    printTable();
+    if (maze_.Finished(x_pos, y_pos)) {
+      return 1;
+    }
+    int x_next, y_next;
+    for (int k = 0; k < 4; ++k) {
+      x_next = x_pos + xMove[k];
+      y_next = y_pos + yMove[k];
+
+      if (move(x_next, y_next)) {
+        Square s = maze_.getSquare(x_next, y_next);
+        s.setState(step);
+        step_ = step;
+        rules_.add(k + 1);
+        nodes_.add(s);
+
+        try {
+          // Sleep for 1 second (1000 milliseconds)
+          Thread.sleep(1000);
+        } catch (InterruptedException e) {
+          // Handle interruption if needed
+          e.printStackTrace();
+        }
+        if (solve(x_next, y_next, step + 1) == 1) {
+          return 1;
+        } else {
+          s.setState(-1);
+          rules_.remove(rules_.size() - 1);
+          nodes_.add(s);
+          try {
+            // Sleep for 1 second (1000 milliseconds)
+            Thread.sleep(1000);
+          } catch (InterruptedException e) {
+            // Handle interruption if needed
+            e.printStackTrace();
+          }
+          printTable();
+        }
+      }
+    }
+    return 0;
+>>>>>>> bed4544aeed728659ea218a19bbe33432822e579:src/DfsSolver.java
   }
 
   /**
