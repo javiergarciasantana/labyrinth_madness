@@ -8,9 +8,6 @@
 
 package labyrinth_madness.src;
 
-import java.util.ArrayList;
-import java.util.List;
-
 /**
  * Represents a solver for solving mazes using Depth-First Search algorithm.
  */
@@ -18,19 +15,6 @@ public class DfsSolver extends Solver {
 
   // Fields
   private int step_;
-  private Maze maze_;
-
-  // Instead of specifying the initial x and y coordinates
-  // And updating them locally in solve()
-  // private int initial_x_, initial_y_;
-  // We store the actual step here
-  // private Square getCurrent();
-  // !!! We actually don't need this variable, because we can get the current
-  // position from the last element of the nodes_ list
-
-  private List<Square> nodes_ = new ArrayList<>();
-  private List<Integer> rules_ = new ArrayList<>();
-  private int move[][] = { { -1, 0 }, { 0, -1 }, { 1, 0 }, { 0, 1 } };
   private boolean isBacktracking = false;
 
   /**
@@ -40,21 +24,14 @@ public class DfsSolver extends Solver {
    * @param x The initial x-coordinate.
    * @param y The initial y-coordinate.
    */
-  // We are working with the real coordinates (from 0)
-  // and not the professor's ones (from 1)
   public DfsSolver(Maze m, int x, int y) {
     super(m, x, y, 2);
     step_ = 2;
-    // Add the initial position to the list of nodes
-    // TODOO: check if the initial position is valid
-    // or if we need to default to the first free square
-    nodes_.add(maze_.getSquare(x, y));
-    getCurrent().setState(step_);
   }
 
   // Here we do the same as in the solve() method,
   // but the rules are applied one by one
-  public void step() {
+  public void Step() {
     // If the current position is the exit, return
     if (maze_.isEdge(getCurrent())) {
       maze_.printMatrix(); // Debugging
@@ -77,7 +54,7 @@ public class DfsSolver extends Solver {
     }
     for (int k = start; k < 4; ++k) {
       // Calculate the next square
-      Square nextSquare = moveSquare(getCurrent(), move[k]);
+      Square nextSquare = moveSquare(getCurrent(), moves[k]);
       // If the move is allowed...
       if (nextSquare != null && nextSquare.isFree()) {
         // Move to the next position
@@ -92,20 +69,6 @@ public class DfsSolver extends Solver {
     backtrackStep();
     maze_.printMatrix(); // Debugging
     return;
-  }
-
-  /**
-   * Returns the list of nodes.
-   *
-   * @return The list of nodes.
-   */
-  public List<Square> getNodes() {
-    return nodes_;
-  }
-
-  // Returns the last node, i.e., the current position
-  private Square getCurrent() {
-    return nodes_.get(nodes_.size() - 1);
   }
 
   private int getInverseRule(int rule) {

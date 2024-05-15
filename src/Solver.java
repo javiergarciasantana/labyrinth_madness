@@ -15,13 +15,12 @@ public class Solver {
 
   // Fields
   protected Maze maze_;
-  protected int initial_x_, initial_y_;
+  // Not needed, cause the head of the list is the current position
+  // protected int initial_x_, initial_y_;
   protected List<Square> nodes_ = new ArrayList<>();
   protected List<Integer> rules_ = new ArrayList<>();
-  protected int xMove[] = { -1, 0, 1, 0 };
-  protected int yMove[] = { 0, -1, 0, 1 };
-  //protected Tree tree;
-
+  protected int moves[][] = { { -1, 0 }, { 0, -1 }, { 1, 0 }, { 0, 1 } };
+  // protected Tree tree;
 
   // Constructors
 
@@ -29,18 +28,15 @@ public class Solver {
    * Parameterized constructor for Solver class.
    * Initializes maze with given parameters and sets initial configuration.
    *
-   * @param m    The maze matrix.
-   * @param x         The initial x-coordinate.
-   * @param y         The initial y-coordinate.
+   * @param m The maze matrix.
+   * @param x The initial x-coordinate.
+   * @param y The initial y-coordinate.
    */
   protected Solver(Maze m, int x, int y, int step) {
     maze_ = m;
-    initial_x_ = x - 1;
-    initial_y_ = y - 1;
-    Square s = maze_.getSquare(initial_x_, initial_y_);
-    s.setState(step);
-    nodes_.add(s);
-    //tree = new Tree(s);
+    nodes_.add(maze_.getSquare(x, y));
+    getCurrent().setState(step_);
+
   }
 
   // Methods
@@ -48,9 +44,9 @@ public class Solver {
   /**
    * Moves to the specified position.
    *
-   * @param x_pos  The x-coordinate of the position.
-   * @param y_pos  The y-coordinate of the position.
-   * @return       True if move is valid, false otherwise.
+   * @param x_pos The x-coordinate of the position.
+   * @param y_pos The y-coordinate of the position.
+   * @return True if move is valid, false otherwise.
    */
   protected boolean move(int x_pos, int y_pos) {
     return (x_pos >= 0 && y_pos >= 0
@@ -89,5 +85,19 @@ public class Solver {
   protected void addToRules(int r) {
     rules_.add(r);
   }
-  
+
+  // Returns the last node, i.e., the current position
+  protected Square getCurrent() {
+    return nodes_.get(nodes_.size() - 1);
+  }
+
+  /**
+   * Returns the list of nodes.
+   *
+   * @return The list of nodes.
+   */
+  public List<Square> getNodes() {
+    return nodes_;
+  }
+
 }

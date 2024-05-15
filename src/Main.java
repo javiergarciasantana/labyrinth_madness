@@ -26,7 +26,7 @@ public class Main {
     System.out.println("[h] Help");
 
     String input = scanner.nextLine();
-    
+
     DfsSolver solver_dfs = null;
     BfsSolver solver_bfs = null;
 
@@ -60,7 +60,6 @@ public class Main {
     // String[] processingArgs = { "MySketch" };
     // MySketch mySketch = new MySketch(m, solver_dfs);
     // PApplet.runSketch(processingArgs, mySketch);
-    
 
   }
 
