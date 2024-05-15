@@ -8,96 +8,69 @@
 
 package labyrinth_madness.src;
 
-import java.io.*;
 import java.util.*;
 
 public class BfsSolver extends Solver {
-
   // Fields
   private int wave_;
-  private Queue<Map.Entry<Integer, Integer>> cola_ = new LinkedList<>();
+  private Queue<TreeNode> queue_ = new LinkedList<>();
+  private TreeNode root;
 
   // Constructors
-
-  /**
-   * Parameterized constructor for BfsSolver class.
-   * Initializes maze with given parameters and sets initial configuration.
-   *
-   * @param m    The maze matrix.
-   * @param x         The initial x-coordinate.
-   * @param y         The initial y-coordinate.
-   */
   public BfsSolver(Maze m, int x, int y) {
     super(m, x, y, 2);
     wave_ = 1;
-    cola_.add(new AbstractMap.SimpleEntry<>(initial_x_, initial_y_));
+    root = new TreeNode(m.getSquare(x - 1, y - 1), null);
+    queue_.add(root);
   }
 
   // Methods
-
-  /**
-   * Writes maze data.
-   */
   public void Write() {
-    // if (Solve() == 0) {
-    //   printTable();
-    // }
     int result = 0;
-    while(result == 0) {
+    while (result == 0) {
       result = Solve();
     }
+    root.printTree(root,""); // Print the tree after solving
   }
 
-  /**
-   * Solves the maze.
-   *
-   * @return      1 if solution is found, 0 otherwise.
-   */
   private int Solve() {
-    while (!cola_.isEmpty()) {
-      Map.Entry<Integer, Integer> k = cola_.poll();
-      int x_pos = k.getKey();
-      int y_pos = k.getValue();
-      if (wave_ < maze_.getSquare(x_pos, y_pos).getState()) {
+    while (!queue_.isEmpty()) {
+      TreeNode node = queue_.poll();
+      Square square = node.getSquare();
+      int x_pos = square.getX();
+      int y_pos = square.getY();
+      //System.out.println("Current position: " + x_pos + ", " + y_pos + " element: " + square.getState()) ;
+      if (wave_ < square.getState()) {
         ++wave_;
         try {
           Thread.sleep(1000); // Sleep for 1 second (1000 milliseconds)
         } catch (InterruptedException e) {
-            e.printStackTrace(); // Handle interruption if needed
+          e.printStackTrace(); // Handle interruption if needed
         }
         printTable();
       }
       for (int j = 0; j < 4; ++j) {
         if (move(x_pos + xMove[j], y_pos + yMove[j])) {
 
-          cola_.add(new AbstractMap.SimpleEntry<>(x_pos + xMove[j], y_pos + yMove[j]));
+          Square nextSquare = maze_.getSquare(x_pos + xMove[j], y_pos + yMove[j]);
+          nextSquare.setState(square.getState() + 1);
+          TreeNode childNode = new TreeNode(nextSquare, node);
+          node.addChild(childNode);
+          queue_.add(childNode);
 
-          maze_.setElem(x_pos + xMove[j], y_pos + yMove[j], maze_.getSquare(x_pos, y_pos).getState() + 1);
-          
+
           if (maze_.Finished(x_pos + xMove[j], y_pos + yMove[j])) {
-
             try {
               Thread.sleep(1000); // Sleep for 1 second (1000 milliseconds)
             } catch (InterruptedException e) {
-                e.printStackTrace(); // Handle interruption if needed
+              e.printStackTrace(); // Handle interruption if needed
             }
             printTable();
             return 1;
           }
-        } 
+        }
       }
-      return 0;
     }
     return 0;
-  }
-
-  /**
-   * Adds a node to the maze.
-   *
-   * @param x   The x-coordinate of the node.
-   * @param y   The y-coordinate of the node.
-   */
-  public void addToNodes(int x, int y) {
-    nodes_.add(maze_.getSquare(x, y));
   }
 }

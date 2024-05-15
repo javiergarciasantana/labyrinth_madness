@@ -20,6 +20,7 @@ public class Solver {
   protected List<Integer> rules_ = new ArrayList<>();
   protected int xMove[] = { -1, 0, 1, 0 };
   protected int yMove[] = { 0, -1, 0, 1 };
+  //protected Tree tree;
 
 
   // Constructors
@@ -39,6 +40,7 @@ public class Solver {
     Square s = maze_.getSquare(initial_x_, initial_y_);
     s.setState(step);
     nodes_.add(s);
+    //tree = new Tree(s);
   }
 
   // Methods
