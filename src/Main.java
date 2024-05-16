@@ -67,8 +67,8 @@ public class Main {
 
     Maze m = new Maze(7, 7);
     Solver solver = new DfsSolver(m, 4, 3);
+    
     // NOTE: the size of the maze is hardcoded for now to 800x800
-
     String[] processingArgs = { "MySketch" };
     MySketch mySketch = new MySketch(m, solver);
     PApplet.runSketch(processingArgs, mySketch);
