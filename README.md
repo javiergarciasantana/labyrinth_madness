@@ -20,13 +20,13 @@ cd labyrinth_madness
 1. Compile the Java files:
 
 ```bash
-javac -cp "lib/core.jar" -source 1.8 -target 1.8 src/labyrinth_madness/*.java
+javac -cp "library/core.jar" src/*.java
 ```
 
 2. Create the JAR file:
 
 ```bash
-jar cfm labim.jar manifest.txt -C bin .
+jar cfm labim.jar manifest.txt -C src .
 ```
 
 3. Run the application:
