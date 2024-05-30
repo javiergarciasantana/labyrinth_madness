@@ -1,0 +1,3 @@
+Manifest-Version: 1.0
+Main-Class: labyrinth_madness.src.Main
+Class-Path: library/core.jar
