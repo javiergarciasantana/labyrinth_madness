@@ -8,7 +8,6 @@
 package labyrinth_madness.src;
 
 import processing.core.PApplet;
-import processing.core.PImage;
 import processing.core.PFont;
 
 /**
@@ -30,7 +29,6 @@ public class MySketch extends PApplet {
   private boolean wallsPlaced = false;
   private boolean solverStarted = false;
   private boolean solverPlaced = false;
-  PImage solverSprite;
 
   /**
    * Constructs a MySketch object with the given maze and solver.
