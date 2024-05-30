@@ -7,8 +7,6 @@
 
 package labyrinth_madness.src;
 
-import java.util.List;
-
 /**
  * Represents a square in the labyrinth.
  */
@@ -105,20 +103,6 @@ public class Square {
 
   public void setParent(Square parent) {
     this.parent = parent;
-  }
-
-  // Method to print the tree
-  public void printTree(TreeNode node, String indent) {
-    if (node == null)
-      return;
-    System.out.println(indent + "└─ " + node.getSquare().getState()); // Print square data with indentation
-    List<TreeNode> children = node.getChildren();
-    for (int i = 0; i < children.size(); i++) {
-      TreeNode child = children.get(i);
-      // Adjust indentation based on the position of the child
-      String childIndent = indent + (i == children.size() - 1 ? "    " : "│   ");
-      printTree(child, childIndent); // Recursively print children with updated indentation
-    }
   }
 
   public void setVisited(boolean visited) {
