@@ -4,7 +4,6 @@
 // COURSE: OOP
 // NAME: Labyrinth Madness
 // COMMENTS: Main file
-//
 
 package labyrinth_madness.src;
 
@@ -16,5 +15,4 @@ public class Main {
     MySketch mySketch = new MySketch();
     PApplet.runSketch(processingArgs, mySketch);
   }
-
 }

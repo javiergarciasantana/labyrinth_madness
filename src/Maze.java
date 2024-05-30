@@ -10,9 +10,6 @@ package labyrinth_madness.src;
 /**
  * Represents a maze for solving labyrinth problems.
  */
-/**
- * Represents a maze.
- */
 public class Maze {
 
   private int width_, height_;
@@ -111,7 +108,7 @@ public class Maze {
   public void resetSolution() {
     for (int i = 0; i < width_; i++) {
       for (int j = 0; j < height_; j++) {
-        if (maze_[i][j].getState() >= 2) {
+        if (maze_[i][j].getState() >= 2 || maze_[i][j].getState() == -1) {
           maze_[i][j].setState(0);
         }
         maze_[i][j].setVisited(false);

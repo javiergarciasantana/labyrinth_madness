@@ -20,7 +20,7 @@ public class MySketch extends PApplet {
   private Solver solver;
   private int stepX;
   private int stepY;
-  private int updatingFrames = 20;
+  private int updatingFrames = 40;
 
   private int width = 605;
   private int height = 700;
@@ -70,6 +70,8 @@ public class MySketch extends PApplet {
   public void draw() {
     translate(5, 5);
     background(0);
+    fill(255);
+    rect(0, height - 100, width - 10, 90);
 
     if (solverStarted) {
       if (frameCount % updatingFrames == 0) {
@@ -120,8 +122,6 @@ public class MySketch extends PApplet {
    */
   public void renderChoiceButton() {
     pushMatrix();
-    fill(255);
-    rect(0, height - 100, width - 10, 90);
     fill(0);
     textSize(20);
     if (!solverPlaced) {

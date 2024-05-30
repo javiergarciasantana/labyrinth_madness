@@ -8,8 +8,8 @@
 package labyrinth_madness.src;
 
 /**
- * This class represents a Breadth-First Search (BFS) solver for a maze.
- * It extends the Solver class and implements the solving algorithm using BFS.
+ * This class represents a Breadth-First Search (BFS) solver for a maze. It
+ * extends the Solver class and implements the solving algorithm using BFS.
  */
 public class BfsSolver extends Solver {
 

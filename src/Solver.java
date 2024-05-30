@@ -4,7 +4,6 @@
 // COURSE: OOP
 // NAME: Labyrinth Madness
 // COMMENTS: File where the Solver class is declared
-//
 
 package labyrinth_madness.src;
 
@@ -13,20 +12,14 @@ import java.util.LinkedList;
 
 public abstract class Solver {
 
-  // Fields
   protected Maze maze_;
-  // Not needed, cause the head of the list is the current position
-  // protected int initial_x_, initial_y_;
   protected Deque<Square> nodes_ = new LinkedList<>();
-  // protected Deque<Integer> rules_ = new LinkedList<>();
   protected int moves[][] = { { -1, 0 }, { 0, -1 }, { 1, 0 }, { 0, 1 } };
   protected Square solution;
 
-  // Constructors
-
   /**
-   * Parameterized constructor for Solver class.
-   * Initializes maze with given parameters and sets initial configuration.
+   * Parameterized constructor for Solver class. Initializes maze with given
+   * parameters and sets initial configuration.
    *
    * @param m The maze matrix.
    * @param x The initial x-coordinate.

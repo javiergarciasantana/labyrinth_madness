@@ -4,17 +4,11 @@
 // COURSE: OOP
 // NAME: Labyrinth Madness
 // COMMENTS: File where the DfsSolver class is declared
-//
 
 package labyrinth_madness.src;
 
 /**
  * Represents a solver for solving mazes using Depth-First Search algorithm.
- */
-/**
- * The DfsSolver class represents a solver that uses Depth-First Search (DFS)
- * algorithm to solve a maze.
- * It extends the Solver class.
  */
 public class DfsSolver extends Solver {
 
