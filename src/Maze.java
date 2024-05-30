@@ -10,6 +10,9 @@ package labyrinth_madness.src;
 /**
  * Represents a maze for solving labyrinth problems.
  */
+/**
+ * Represents a maze.
+ */
 public class Maze {
 
   private int width_, height_;
@@ -31,14 +34,13 @@ public class Maze {
         maze_[i][j] = new Square(0, i, j);
       }
     }
-
   }
 
   /**
    * Gets the square at the specified position.
    *
-   * @param x_pos The x-coordinate.
-   * @param y_pos The y-coordinate.
+   * @param x The x-coordinate.
+   * @param y The y-coordinate.
    * @return The square at the specified position.
    */
   public Square getSquare(int x, int y) {
@@ -51,12 +53,12 @@ public class Maze {
   /**
    * Sets the value of the square at the specified position.
    *
-   * @param x_pos The x-coordinate.
-   * @param y_pos The y-coordinate.
-   * @param val   The value to set.
+   * @param x   The x-coordinate.
+   * @param y   The y-coordinate.
+   * @param val The value to set.
    */
-  public void setElem(int x_pos, int y_pos, int val) {
-    maze_[x_pos][y_pos].setState(val);
+  public void setElem(int x, int y, int val) {
+    maze_[x][y].setState(val);
   }
 
   /**
@@ -102,7 +104,11 @@ public class Maze {
     return (s.getX() == 0 || s.getX() == width_ - 1 || s.getY() == 0 || s.getY() == height_ - 1);
   }
 
-  public void reset() {
+  /**
+   * Resets the maze by setting all squares to their initial state, except for
+   * walls
+   */
+  public void resetSolution() {
     for (int i = 0; i < width_; i++) {
       for (int j = 0; j < height_; j++) {
         if (maze_[i][j].getState() >= 2) {

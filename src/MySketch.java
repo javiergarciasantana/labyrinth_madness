@@ -20,9 +20,7 @@ public class MySketch extends PApplet {
   private Solver solver;
   private int stepX;
   private int stepY;
-  // HARDCODED
   private int updatingFrames = 20;
-  // private boolean isBeingSolved = false;
 
   private int width = 605;
   private int height = 700;
@@ -31,7 +29,7 @@ public class MySketch extends PApplet {
   private boolean mazeSolved = false;
   private boolean wallsPlaced = false;
   private boolean solverStarted = false;
-
+  private boolean solverPlaced = false;
   PImage solverSprite;
 
   /**
@@ -49,11 +47,16 @@ public class MySketch extends PApplet {
     System.out.println("StepX: " + stepX + " StepY: " + stepY);
   }
 
+  /**
+   * Sets the size of the sketch window.
+   */
   public void settings() {
     size(width, height);
-    solverSprite = loadImage(getClass().getResource("solver.png").getPath());
   }
 
+  /**
+   * Sets up the sketch.
+   */
   public void setup() {
     PFont font;
     font = createFont("Arial", 50, true);
@@ -61,15 +64,17 @@ public class MySketch extends PApplet {
     frameRate(60);
   }
 
+  /**
+   * Draws the sketch.
+   */
   public void draw() {
     translate(5, 5);
     background(0);
-    if (wallsPlaced) {
+
+    if (solverStarted) {
       if (frameCount % updatingFrames == 0) {
         if (!mazeSolved) {
-          if (solverStarted) {
-            mazeSolved = solver.Step();
-          }
+          mazeSolved = solver.Step();
         } else {
           Square solution = solver.getSolution();
           solution.rebuildPathToOrigin();
@@ -80,18 +85,28 @@ public class MySketch extends PApplet {
     } else {
       renderMaze();
       renderChoiceButton();
-
+      if (solverPlaced) {
+        renderSolver();
+      }
     }
     // Render the maze
 
   }
 
+  /**
+   * Gets the square at the current mouse position.
+   *
+   * @return The square at the mouse position.
+   */
   private Square getSquareAtMousePosition() {
     int x = mouseX / stepX;
     int y = mouseY / stepY;
     return m.getSquare(x, y);
   }
 
+  /**
+   * Renders the maze.
+   */
   public void renderMaze() {
     for (int i = 0; i < m.getWidth(); i++) {
       for (int j = 0; j < m.getHeight(); j++) {
@@ -100,18 +115,32 @@ public class MySketch extends PApplet {
     }
   }
 
+  /**
+   * Renders the choice button.
+   */
   public void renderChoiceButton() {
     pushMatrix();
     fill(255);
-    rect(0, height - 100, width, 100);
+    rect(0, height - 100, width - 10, 90);
     fill(0);
     textSize(20);
-    text("Press LEFT button of your mouse to create or destroy a wall", 4, height - 70);
-    text("Press RIGHT button of your mouse to set the starting point", 4, height - 50);
-    text("Press 'r' to choose another starting point", 4, height - 30);
+    if (!solverPlaced) {
+      text("Press LEFT button of your mouse to create or destroy a wall", 4, height - 70);
+      text("Press RIGHT button of your mouse to set the starting point", 4, height - 50);
+    } else {
+      text("Press 'b' to start BFS", 4, height - 70);
+      text("Press 'd' to start DFS", 4, height - 50);
+      text("Press 'r' to choose another starting point", 4, height - 30);
+
+    }
     popMatrix();
   }
 
+  /**
+   * Renders a square.
+   *
+   * @param s The square to render.
+   */
   public void renderSquare(Square s) {
     pushMatrix();
     int pos[] = calculateSquarePos(s);
@@ -138,6 +167,12 @@ public class MySketch extends PApplet {
     popMatrix();
   }
 
+  /**
+   * Calculates the position of a square.
+   *
+   * @param s The square.
+   * @return The position of the square.
+   */
   public int[] calculateSquarePos(Square s) {
     int[] pos = new int[2];
     pos[0] = s.getX() * stepX;
@@ -145,6 +180,9 @@ public class MySketch extends PApplet {
     return pos;
   }
 
+  /**
+   * Renders the solver.
+   */
   public void renderSolver() {
     Square currentSquare;
     if (!solverStarted) {
@@ -159,35 +197,42 @@ public class MySketch extends PApplet {
 
     pushMatrix();
 
-    fill(255);
+    fill(0);
     translate(solverPosition[0] * stepX, solverPosition[1] * stepY);
-    // circle(0, 0, 20);
-    image(solverSprite, 0, 0, stepX, stepY);
+    circle(stepX / 2, stepY / 2, 20);
     popMatrix();
   }
 
+  /**
+   * Handles the mouse press event.
+   */
   public void mousePressed() {
     if (!wallsPlaced) {
       Square s = getSquareAtMousePosition();
       if (mouseButton == LEFT) {
         s.invertState();
       } else if (mouseButton == RIGHT) {
-        if (!solverStarted) {
+        if (!solverStarted && !s.isWall()) {
           solverPosition[0] = s.getX();
           solverPosition[1] = s.getY();
+          wallsPlaced = true;
+          solverPlaced = true;
         }
-        wallsPlaced = true;
       }
 
     }
   }
 
+  /**
+   * Handles the key press event.
+   */
   public void keyPressed() {
     if (key == 'r') {
-      m.reset();
+      m.resetSolution();
       wallsPlaced = false;
       mazeSolved = false;
       solverStarted = false;
+      solverPlaced = false;
     } else if (key == 'd' && wallsPlaced && !solverStarted) {
       Square s = m.getSquare(solverPosition[0], solverPosition[1]);
       this.solver = new DfsSolver(m, s);
