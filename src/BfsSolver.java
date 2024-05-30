@@ -21,8 +21,8 @@ public class BfsSolver extends Solver {
    * @param x The x-coordinate of the starting position.
    * @param y The y-coordinate of the starting position.
    */
-  public BfsSolver(Maze m, int x, int y) {
-    super(m, x, y, 2);
+  public BfsSolver(Maze m, Square s) {
+    super(m, s);
   }
 
   /**

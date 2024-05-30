@@ -26,23 +26,9 @@ public class Maze {
     height_ = h;
     maze_ = new Square[width_][height_];
 
-    int[][] matrix = {
-        // in the visual representation, the first index is the column from left to
-        // right
-        // and the second is the row from top to bottom
-        { 1, 1, 1, 1, 1, 1, 1 },
-        { 1, 0, 0, 0, 1, 0, 1 },
-        { 1, 0, 1, 0, 0, 0, 1 },
-        { 1, 0, 0, 0, 0, 1, 1 },
-        { 1, 1, 1, 1, 0, 1, 1 },
-        { 0, 0, 0, 0, 0, 1, 0 },
-        { 1, 1, 1, 1, 1, 0, 1 }
-    };
-
-    // Copy the values from matrix to maze_
     for (int i = 0; i < width_; i++) {
       for (int j = 0; j < height_; j++) {
-        maze_[i][j] = new Square(matrix[i][j], i, j);
+        maze_[i][j] = new Square(0, i, j);
       }
     }
 
@@ -114,5 +100,18 @@ public class Maze {
    */
   public boolean isEdge(Square s) {
     return (s.getX() == 0 || s.getX() == width_ - 1 || s.getY() == 0 || s.getY() == height_ - 1);
+  }
+
+  public void reset() {
+    for (int i = 0; i < width_; i++) {
+      for (int j = 0; j < height_; j++) {
+        if (maze_[i][j].getState() >= 2) {
+          maze_[i][j].setState(0);
+        }
+        maze_[i][j].setVisited(false);
+        maze_[i][j].setParent(null);
+        maze_[i][j].setIsSolution(false);
+      }
+    }
   }
 }

@@ -32,12 +32,9 @@ public abstract class Solver {
    * @param x The initial x-coordinate.
    * @param y The initial y-coordinate.
    */
-  protected Solver(Maze m, int x, int y, int step) {
+  protected Solver(Maze m, Square start) {
     maze_ = m;
-
-    // Starting position
-    Square start = maze_.getSquare(x, y);
-    start.setState(step);
+    start.setState(2);
     nodes_.add(start);
   }
 

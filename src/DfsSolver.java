@@ -26,8 +26,8 @@ public class DfsSolver extends Solver {
    * @param x The x-coordinate of the starting position.
    * @param y The y-coordinate of the starting position.
    */
-  public DfsSolver(Maze m, int x, int y) {
-    super(m, x, y, 2);
+  public DfsSolver(Maze m, Square s) {
+    super(m, s);
   }
 
   /**

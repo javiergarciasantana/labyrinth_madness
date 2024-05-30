@@ -160,4 +160,13 @@ public class Square {
   public boolean isVisited() {
     return visited;
   }
+
+  public boolean invertState() {
+    if (state == 0) {
+      state = 1;
+    } else {
+      state = 0;
+    }
+    return state == 0;
+  }
 }
