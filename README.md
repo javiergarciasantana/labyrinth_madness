@@ -34,3 +34,7 @@ jar cfm labim.jar manifest.txt -C src .
 ```bash
 java -jar labim.jar
 ```
+
+## Program Arquitecture
+
+[image](./docs/program-arch.png)
