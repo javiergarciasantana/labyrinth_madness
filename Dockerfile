@@ -1,7 +1,7 @@
 FROM eclipse-temurin:21-jdk-jammy
 ENV DEBIAN_FRONTEND=noninteractive
 
-# Install our graphical stack
+# The graphical env is installed, wget to download libs and fontconfig for fonts
 RUN apt-get update && apt-get install -y \
     xvfb \
     x11vnc \
@@ -12,21 +12,29 @@ RUN apt-get update && apt-get install -y \
     libxrender1 \
     libxtst6 \
     libxi6 \
+    wget \
+    fontconfig \
+    fonts-liberation \
     && rm -rf /var/lib/apt/lists/*
 
 WORKDIR /app
 
-# Copy your source code, compiled classes, and scripts
+# The code gets copied to the container
 COPY . /app
 
-# (Optional) If you haven't compiled locally, you can compile inside Docker
-# Assuming core.jar is placed in the /app directory:
-# RUN javac -cp core.jar src/*.java
+# core.jar gets downloaded to use processing
+RUN wget https://repo1.maven.org/maven2/org/processing/core/4.5.3/core-4.5.3.jar -O core.jar
 
-# Make the startup script executable
+# 1. The code gets compiled using core.jar
+RUN javac -cp core.jar -d . src/*.java
+
+# 2. Everithing gets packed in the .jar
+RUN jar cvf LabyrinthApp.jar labyrinth_madness/src/*.class
+
+# We give the scipt the required permissions
 RUN chmod +x /app/start.sh
 
-# Expose the noVNC web port
+# Port gets exposed
 EXPOSE 8080
 
 CMD ["/app/start.sh"]

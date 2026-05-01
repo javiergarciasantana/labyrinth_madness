@@ -21,7 +21,7 @@ public class MySketch extends PApplet {
   private int stepY;
   private int updatingFrames = 40;
 
-  private int width = 605;
+  private int width = 608;
   private int height = 700;
 
   private int[] solverPosition = { 0, 0 };

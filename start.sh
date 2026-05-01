@@ -1,27 +1,26 @@
 #!/bin/bash
 
-# 1. Start the virtual monitor
-# We use 800x800 to comfortably fit the 605x700 MySketch canvas.
-echo "Starting Xvfb virtual monitor..."
-Xvfb :0 -screen 0 800x800x16 &
-export DISPLAY=:0
+# 1. Limpiamos cualquier bloqueo fantasma de ejecuciones anteriores
+rm -f /tmp/.X0-lock /tmp/.X11-unix/X0
 
-# 2. Start the window manager to strip borders and center the app
+echo "Starting Xvfb virtual monitor..."
+Xvfb :0 -screen 0 608x700x24 
+&export DISPLAY=:0
+
+# --- CRUCIAL: Damos 1 segundo para que Xvfb termine de encender la pantalla ---
+sleep 1
+
 echo "Starting Matchbox window manager..."
 matchbox-window-manager -use_titlebar no &
 
-# 3. Start the VNC server (no cache, raw pixels)
 echo "Starting x11vnc..."
 x11vnc -display :0 -nopw -listen localhost -xkb -forever &
 
-# 4. Start the noVNC web bridge
 echo "Starting noVNC..."
 /usr/share/novnc/utils/launch.sh --vnc localhost:5900 --listen 8080 &
 
-# Give the display server a moment to initialize
+# --- Damos 2 segundos para que arranque el servidor web antes de lanzar Java ---
 sleep 2 
 
-# 5. Run the Labyrinth Madness app
-# Note: We include both the current directory (.) and core.jar in the classpath
 echo "Starting MySketch application..."
-java -cp .:core.jar labyrinth_madness.src.Main
+java -cp LabyrinthApp.jar:core.jar labyrinth_madness.src.Main
