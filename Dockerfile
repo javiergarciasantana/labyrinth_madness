@@ -10,6 +10,7 @@ RUN apt-get update && apt-get install -y \
     websockify \
     libxext6 \
     libxrender1 \
+    python3-numpy \
     libxtst6 \
     libxi6 \
     wget \
