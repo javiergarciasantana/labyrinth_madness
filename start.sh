@@ -4,8 +4,8 @@
 rm -f /tmp/.X0-lock /tmp/.X11-unix/X0
 
 echo "Starting Xvfb virtual monitor..."
-Xvfb :0 -screen 0 608x700x24 
-&export DISPLAY=:0
+Xvfb :0 -screen 0 608x700x24 &
+export DISPLAY=:0
 
 # --- CRUCIAL: Damos 1 segundo para que Xvfb termine de encender la pantalla ---
 sleep 1

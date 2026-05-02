@@ -4,6 +4,8 @@
 
 Labyrinth Madness is a Java application that solves mazes using different algorithms.
 
+![alt text](./docs/image.png)
+
 ## Installation
 
 1. Clone the repository:
