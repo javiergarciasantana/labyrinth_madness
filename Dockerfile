@@ -4,10 +4,13 @@ ENV DEBIAN_FRONTEND=noninteractive
 # The graphical env is installed, wget to download libs and fontconfig for fonts
 RUN apt-get update && apt-get install -y \
     xvfb \
-    xpra \
-    ffmpeg \
+    x11vnc \
+    matchbox-window-manager \
+    novnc \
+    websockify \
     libxext6 \
     libxrender1 \
+    python3-numpy \
     libxtst6 \
     libxi6 \
     wget \
